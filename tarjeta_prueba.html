@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tarjeta 3D Interactiva</title>
+    
+    <!-- Importando Tailwind CSS para los estilos de la tarjeta -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Importando FontAwesome para los iconos -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        body {
+            background-color: #181521; /* Fondo oscuro para resaltar la tarjeta */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: 'Inter', sans-serif;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- TARJETA CON EFECTO TILT (3D y Brillo) -->
+    <div data-tilt data-tilt-glare data-tilt-max-glare="0.3" data-tilt-scale="1.05"
+         class="relative h-[600px] w-[350px] rounded-2xl overflow-hidden shadow-2xl transition-transform duration-300 will-change-transform transform-gpu group cursor-pointer border border-white/10" 
+         style="background-image: url('https://i.pinimg.com/originals/18/43/40/1843405b63bc58b2cd646b9a896cc298.jpg'); background-position: center center; background-size: cover; background-repeat: no-repeat;">
+        
+        <div class="absolute bottom-0 left-0 w-full p-2">
+            <!-- CAJA DE CRISTAL (Glassmorphism) -->
+            <div class="backdrop-blur-md border rounded-xl p-4 shadow-2xl transition-all duration-500 bg-gradient-to-br border-red-500/30 from-red-950/90 via-zinc-900/95 to-zinc-900/90">
+                
+                <!-- Cabecera: Nombre y Nivel -->
+                <div class="flex justify-between items-start mb-3">
+                    <div>
+                        <h2 class="text-3xl font-black uppercase tracking-normal text-white leading-none">Hiper</h2>
+                        <p class="text-xs font-bold text-blue-400 uppercase tracking-widest mt-1">Nivel 115</p>
+                    </div>
+                    <div class="flex gap-2 bg-black/40 p-2 rounded-lg border border-white/10 text-white">
+                        <i class="fa-solid fa-fire text-red-500" title="Fuego"></i>
+                        <i class="fa-solid fa-hand-fist text-yellow-500" title="Cuerpo a cuerpo"></i>
+                    </div>
+                </div>
+
+                <!-- Estrellas y Vida -->
+                <div class="flex items-center justify-between mb-4 px-1">
+                    <div class="flex items-center gap-1 text-yellow-400 text-sm">
+                        <i class="fa-solid fa-star drop-shadow-[0_0_5px_rgba(255,255,255,0.3)]"></i>
+                        <i class="fa-regular fa-star opacity-50"></i>
+                        <i class="fa-regular fa-star opacity-50"></i>
+                        <i class="fa-regular fa-star opacity-50"></i>
+                        <i class="fa-regular fa-star opacity-50"></i>
+                    </div>
+                    
+                    <div class="relative flex items-center justify-center group">
+                        <div class="absolute inset-0 w-6 h-6 rounded-full animate-ping opacity-20 bg-green-500"></div>
+                        <div class="w-6 h-6 rounded-full flex items-center justify-center border border-white/20 shadow-lg bg-green-600 shadow-green-500/40 text-white text-[10px]">
+                            <i class="fa-solid fa-heart"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Estadísticas -->
+                <div class="grid grid-cols-2 gap-2">
+                    <!-- HP -->
+                    <div class="flex items-center justify-between p-2 rounded-lg bg-white/5 border border-white/5 transition-colors hover:bg-white/10">
+                        <div class="flex items-center gap-2">
+                            <i class="fa-solid fa-heart text-green-400 text-xs"></i>
+                            <span class="text-[10px] font-bold text-white uppercase">HP</span>
+                        </div>
+                        <div class="text-right">
+                            <p class="text-sm font-bold text-green-400 leading-none">68K</p>
+                            <p class="text-[10px] text-zinc-500 tracking-tighter uppercase">Puesto #129</p>
+                        </div>
+                    </div>
+                    <!-- ATQ -->
+                    <div class="flex items-center justify-between p-2 rounded-lg bg-white/5 border border-white/5 transition-colors hover:bg-white/10">
+                        <div class="flex items-center gap-2">
+                            <i class="fa-solid fa-khanda text-red-400 text-xs"></i>
+                            <span class="text-[10px] font-bold text-white uppercase">ATQ</span>
+                        </div>
+                        <div class="text-right">
+                            <p class="text-sm font-bold text-red-400 leading-none">1184</p>
+                            <p class="text-[10px] text-zinc-500 tracking-tighter uppercase">Puesto #150</p>
+                        </div>
+                    </div>
+                    <!-- DEF -->
+                    <div class="flex items-center justify-between p-2 rounded-lg bg-white/5 border border-white/5 transition-colors hover:bg-white/10 col-span-2">
+                        <div class="flex items-center gap-2">
+                            <i class="fa-solid fa-shield text-blue-400 text-xs"></i>
+                            <span class="text-[10px] font-bold text-white uppercase">DEF</span>
+                        </div>
+                        <div class="text-right">
+                            <p class="text-sm font-bold text-blue-400 leading-none">187</p>
+                            <p class="text-[10px] text-zinc-500 tracking-tighter uppercase">Puesto #147</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Importando la librería Vanilla Tilt para la interactividad 3D -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.8.0/vanilla-tilt.min.js"></script>
+    <script>
+        // Inicializando la tarjeta
+        VanillaTilt.init(document.querySelectorAll(".group"), {
+            max: 15,
+            speed: 400,
+            glare: true,
+            "max-glare": 0.3,
+        });
+    </script>
+</body>
+</html>
