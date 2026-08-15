@@ -1,11 +1,34 @@
-// Base de datos del Ranking de Mi Casita (30 Miembros)
+/* =========================================================================
+   BASE DE DATOS: RANKING DE MI CASITA
+   =========================================================================
+   Aquí es donde se editan los datos de los 30 miembros del gremio.
+   Instrucciones importantes:
+   1. Todo el texto (letras y números con comas) debe ir siempre entre comillas "".
+   2. Asegúrate de siempre dejar una coma (,) al final de cada jugador, 
+      excepto en el último de la lista (Posición 30).
+   3. Si no tienes un dato (por ejemplo, alguien no hizo daño de fuego), 
+      simplemente pon "0" para que la página no se rompa.
+========================================================================= */
+
 const rankingGremio = [
     {
-        posicion: 1,
-        nombre: "Girlross",
-        foto: "img/perfil1.jpg",
-        dañoAsalto: "2,981,766,500",
-        daño: { basico: "10,356,131", luz: "794,330,024", oscuridad: "0", agua: "0", fuego: "0", tierra: "0" }
+        // ---------------------------------------------
+        // EJEMPLO COMPLETO DE CÓMO LLENAR UN JUGADOR:
+        // ---------------------------------------------
+        posicion: 1, // Número de puesto en la tabla (no lleva comillas)
+        nombre: "Girlross", // Nombre del jugador en el juego
+        foto: "img/perfil1.jpg", // Ruta de la imagen de perfil (asegúrate de que exista en tu carpeta img)
+        dañoAsalto: "2,981,766,500", // Daño total oficial del Asalto de Gremio
+        
+        // Daño de práctica en Estafermo por elemento:
+        daño: { 
+            basico: "10,356,131", 
+            luz: "794,330,024", 
+            oscuridad: "0", 
+            agua: "0", 
+            fuego: "0", 
+            tierra: "0" 
+        }
     },
     {
         posicion: 2,
@@ -35,6 +58,9 @@ const rankingGremio = [
         dañoAsalto: "405,090,230",
         daño: { basico: "0", luz: "0", oscuridad: "0", agua: "0", fuego: "0", tierra: "0" }
     },
+    // -------------------------------------------------------------
+    // A partir de aquí, actualiza los datos cada fin de temporada
+    // -------------------------------------------------------------
     {
         posicion: 6,
         nombre: "Death",
@@ -96,7 +122,7 @@ const rankingGremio = [
         nombre: "Shushú",
         foto: "img/perfil14.jpg",
         dañoAsalto: "45,852,962",
-        daño: { basico: "219,602134", luz: "99,696,195", oscuridad: "62,440,360", agua: "35,335,619", fuego: "114,693,004", tierra: "46,857,231" }
+        daño: { basico: "219,602,134", luz: "99,696,195", oscuridad: "62,440,360", agua: "35,335,619", fuego: "114,693,004", tierra: "46,857,231" }
     },
     {
         posicion: 15,
@@ -161,46 +187,58 @@ const rankingGremio = [
         dañoAsalto: "8,767",
         daño: { basico: "0", luz: "0", oscuridad: "0", agua: "0", fuego: "0", tierra: "0" }
     },
+    // -------------------------------------------------------------
+    // ESPACIOS LIBRES (NUEVOS RECLUTAS)
+    // Cuando entre alguien nuevo, cambia "Espacio libre" por su nombre
+    // y pon su dañoAsalto en "0" para empezar.
+    // -------------------------------------------------------------
     {
         posicion: 24,
         nombre: "Espacio libre",
         foto: "img/perfil24.jpg",
+        dañoAsalto: "0", // Añadido para evitar errores visuales
         daño: { basico: "0", luz: "6.5M", oscuridad: "9M", agua: "6M", fuego: "7M", tierra: "7.5M" }
     },
     {
         posicion: 25,
         nombre: "Espacio libre",
         foto: "img/perfil25.jpg",
+        dañoAsalto: "0",
         daño: { basico: "0", luz: "6M", oscuridad: "8.5M", agua: "5.5M", fuego: "6.5M", tierra: "7M" }
     },
     {
         posicion: 26,
         nombre: "Espacio libre",
         foto: "img/perfil26.jpg",
+        dañoAsalto: "0",
         daño: { basico: "0", luz: "5.5M", oscuridad: "8M", agua: "5M", fuego: "6M", tierra: "6.5M" }
     },
     {
         posicion: 27,
         nombre: "Espacio libre",
         foto: "img/perfil27.jpg",
+        dañoAsalto: "0",
         daño: { basico: "0", luz: "5M", oscuridad: "7.5M", agua: "4.5M", fuego: "5.5M", tierra: "6M" }
     },
     {
         posicion: 28,
         nombre: "Espacio libre",
         foto: "img/perfil28.jpg",
+        dañoAsalto: "0",
         daño: { basico: "0", luz: "4.5M", oscuridad: "7M", agua: "4M", fuego: "5M", tierra: "5.5M" }
     },
     {
         posicion: 29,
         nombre: "Espacio libre",
         foto: "img/perfil29.jpg",
+        dañoAsalto: "0",
         daño: { basico: "0", luz: "4M", oscuridad: "6.5M", agua: "3.5M", fuego: "4.5M", tierra: "5M" }
     },
     {
         posicion: 30,
         nombre: "Espacio libre",
         foto: "img/perfil30.jpg",
+        dañoAsalto: "0",
         daño: { basico: "0", luz: "3.5M", oscuridad: "6M", agua: "3M", fuego: "4M", tierra: "4.5M" }
     }
 ];
