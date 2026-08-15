@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resumen del Gremio - Mi Casita</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --sidebar-bg: #292437; --sidebar-text: #9691a5; --sidebar-text-active: #ffffff;
+            --sidebar-bg-active: #3c354e; --sidebar-btn: #fdd843; --main-bg: #f9f5ed;
+            --card-bg: #ffffff; --text-dark: #201b2a; --text-muted: #7d7889;
+            --accent-red: #d84d65; --border-color: #e8e4dc; --transition-speed: 0.3s;
+        }
+
+        [data-theme="dark"] {
+            --main-bg: #181521; --card-bg: #221e2d; --text-dark: #f0eef5;
+            --text-muted: #a39eb5; --border-color: #353045; --sidebar-bg: #14111c;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+        body { display: flex; height: 100vh; background-color: var(--main-bg); color: var(--text-dark); transition: background-color var(--transition-speed), color var(--transition-speed); overflow: hidden; }
+
+        /* Sidebar */
+        .sidebar { width: 260px; background-color: var(--sidebar-bg); color: var(--sidebar-text); display: flex; flex-direction: column; transition: width var(--transition-speed); overflow-y: auto; overflow-x: hidden; flex-shrink: 0; }
+        .sidebar.collapsed { width: 0; padding: 0; }
+        .sidebar-header { padding: 24px; display: flex; align-items: center; gap: 12px; margin-bottom: 10px; min-width: 260px; }
+        .sidebar-header img { width: 40px; height: 40px; border-radius: 10px; object-fit: cover; flex-shrink: 0; }
+        .sidebar-header h2 { color: white; font-size: 18px; font-weight: 700; line-height: 1.2; }
+        .sidebar-header p { font-size: 10px; text-transform: uppercase; letter-spacing: 1px; color: var(--sidebar-text); }
+        .nav-group { margin-bottom: 10px; min-width: 260px; }
+        .nav-title { padding: 10px 24px; font-size: 11px; text-transform: uppercase; letter-spacing: 1px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; user-select: none; }
+        .nav-title:hover { color: var(--sidebar-text-active); }
+        .nav-title i { transition: transform 0.3s ease; }
+        .nav-group.collapsed-group .nav-title i { transform: rotate(-90deg); }
+        .nav-items-container { max-height: 300px; overflow: hidden; transition: max-height 0.3s ease-in-out; }
+        .nav-group.collapsed-group .nav-items-container { max-height: 0; }
+        .nav-item { padding: 10px 24px; display: flex; align-items: center; gap: 12px; cursor: pointer; font-size: 14px; font-weight: 600; text-decoration: none; color: var(--sidebar-text); transition: 0.2s; }
+        .nav-item:hover { color: var(--sidebar-text-active); }
+        .nav-item.active { background-color: var(--sidebar-bg-active); color: var(--sidebar-text-active); border-left: 4px solid var(--sidebar-btn); }
+
+        /* Main Content */
+        .main-content { flex: 1; display: flex; flex-direction: column; overflow-y: auto; padding-bottom: 80px; }
+        .topbar { display: flex; justify-content: space-between; align-items: center; padding: 20px 40px; }
+        .breadcrumbs { display: flex; align-items: center; gap: 15px; font-size: 14px; color: var(--text-muted); }
+        .toggle-btn, .theme-btn { background: none; border: none; color: var(--text-dark); font-size: 20px; cursor: pointer; padding: 8px; border-radius: 50%; background-color: var(--card-bg); box-shadow: 0 2px 10px rgba(0,0,0,0.05); transition: 0.3s; }
+        .dashboard-container { padding: 20px 60px 60px 60px; max-width: 1200px; margin: 0 auto; width: 100%; }
+        
+        .welcome-header { margin-bottom: 30px; }
+        .welcome-header h1 { font-size: 42px; font-weight: 800; margin-bottom: 12px; }
+        .welcome-header h1 span { color: var(--sidebar-btn); }
+        .welcome-header p { color: var(--text-muted); max-width: 600px; line-height: 1.6; }
+
+        .card { background-color: var(--card-bg); border-radius: 24px; padding: 30px; box-shadow: 0 4px 20px rgba(0,0,0,0.03); border: 1px solid var(--border-color); }
+        .section-title { font-size: 12px; text-transform: uppercase; letter-spacing: 1px; color: var(--text-muted); margin-bottom: 20px; font-weight: 700; }
+
+        /* Grid de Estadísticas (NUEVO) */
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px; margin-bottom: 30px; }
+        .stat-box { background: var(--main-bg); padding: 25px; border-radius: 20px; border: 1px solid var(--border-color); display: flex; align-items: center; gap: 20px; transition: 0.3s; }
+        .stat-box:hover { transform: translateY(-3px); box-shadow: 0 8px 15px rgba(0,0,0,0.05); }
+        .stat-icon { width: 50px; height: 50px; border-radius: 15px; display: flex; align-items: center; justify-content: center; font-size: 22px; flex-shrink: 0; }
+        .stat-info h4 { font-size: 12px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 5px; }
+        .stat-info p { font-size: 24px; font-weight: 800; color: var(--text-dark); }
+
+        /* Layout de dos columnas para abajo */
+        .split-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+
+        @media (max-width: 1000px) {
+            .split-layout { grid-template-columns: 1fr; }
+            .sidebar { position: absolute; height: 100%; z-index: 100; }
+        }
+    </style>
+</head>
+<body>
+
+    <aside class="sidebar" id="sidebar">
+       <div class="sidebar-header">
+            <img src="logo.jpg" alt="Logo">
+            <div>
+                <h2>Mi Casita</h2>
+                <p>Gremio de Guardian Tales</p>
+            </div>
+        </div>
+
+        <div class="nav-group">
+            <div class="nav-title" title="Clic para desplegar">INICIO <i class="fa-solid fa-chevron-down"></i></div>
+            <div class="nav-items-container">
+                <a href="index.html" class="nav-item"><i class="fa-solid fa-fire"></i> Fogata de bienvenida</a>
+                <a href="noticias.html" class="nav-item"><i class="fa-regular fa-newspaper"></i> Noticias del gremio</a>
+            </div>
+        </div>
+
+        <div class="nav-group">
+            <div class="nav-title" title="Clic para desplegar">GREMIO <i class="fa-solid fa-chevron-down"></i></div>
+            <div class="nav-items-container">
+                <a href="resumen.html" class="nav-item active"><i class="fa-solid fa-chart-pie"></i> Resumen del gremio</a>
+                <a href="guia.html" class="nav-item"><i class="fa-solid fa-book-bookmark"></i> Guía</a>
+                <a href="ranking.html" class="nav-item"><i class="fa-solid fa-trophy"></i> Ranking de la casa</a>
+            </div>
+        </div>
+        
+        <div class="nav-group">
+            <div class="nav-title" title="Clic para desplegar">CUENTOS DE GUARDIANES <i class="fa-solid fa-chevron-down"></i></div>
+            <div class="nav-items-container">
+                <a href="heroes.html" class="nav-item"><i class="fa-solid fa-users-viewfinder"></i> Héroes</a>
+                <a href="equipos.html" class="nav-item"><i class="fa-solid fa-shield-halved"></i> Equipos</a>
+                <a href="incursiones.html" class="nav-item"><i class="fa-solid fa-ghost"></i> Incursiones</a>
+                <a href="recursos.html" class="nav-item"><i class="fa-regular fa-gem"></i> Recursos</a>
+            </div>
+        </div>
+
+        <div class="nav-group" style="margin-top: auto; padding-bottom: 20px;">
+            <div class="nav-items-container" style="max-height: none;">
+                <a href="preferencias.html" class="nav-item"><i class="fa-solid fa-gear"></i> Preferencias</a>
+                <a href="ayuda.html" class="nav-item"><i class="fa-regular fa-circle-question"></i> Ayuda y atajos</a>
+            </div>
+        </div>
+    </aside>
+
+    <main class="main-content">
+        <div class="topbar">
+            <div class="breadcrumbs">
+                <button class="toggle-btn" id="toggleSidebar" title="Ocultar/Mostrar Menú">
+                    <i class="fa-solid fa-bars"></i>
+                </button>
+                <span>Mi Casita &nbsp; > &nbsp; <b>Resumen del gremio</b></span>
+            </div>
+            
+            <button class="theme-btn" id="themeToggle" title="Alternar Modo Oscuro">
+                <i class="fa-solid fa-moon"></i>
+            </button>
+        </div>
+
+        <div class="dashboard-container">
+            
+            <div class="welcome-header">
+                <h1>Estado del <span>Gremio.</span></h1>
+                <p>Métricas generales, capacidad actual y jugadores destacados basados en el último registro de asalto.</p>
+            </div>
+
+            <!-- CUATRO TARJETAS DE MÉTRICAS GLOBALES (Vinculadas a SheetDB) -->
+            <div class="stats-grid">
+                <div class="stat-box">
+                    <div class="stat-icon" style="background: #fdf5ea; color: #e59935;"><i class="fa-solid fa-earth-americas"></i></div>
+                    <div class="stat-info">
+                        <h4>Ranking Actual</h4>
+                        <p id="sheet-resumen_ranking">Cargando...</p>
+                    </div>
+                </div>
+
+                <div class="stat-box">
+                    <div class="stat-icon" style="background: #eafdf5; color: #1fb173;"><i class="fa-solid fa-users"></i></div>
+                    <div class="stat-info">
+                        <h4>Miembros</h4>
+                        <p id="sheet-resumen_miembros">Cargando...</p>
+                    </div>
+                </div>
+
+                <div class="stat-box">
+                    <div class="stat-icon" style="background: #fdeaea; color: var(--accent-red);"><i class="fa-solid fa-fire-flame-curved"></i></div>
+                    <div class="stat-info">
+                        <h4>Daño Total</h4>
+                        <p id="sheet-resumen_dano">Cargando...</p>
+                    </div>
+                </div>
+
+                <div class="stat-box">
+                    <div class="stat-icon" style="background: #eaeffd; color: #4299f6;"><i class="fa-solid fa-ticket"></i></div>
+                    <div class="stat-info">
+                        <h4>Tickets Usados</h4>
+                        <p id="sheet-resumen_tickets">Cargando...</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SECCIÓN INFERIOR DIVIDIDA -->
+            <div class="split-layout">
+                
+                <!-- TOP 3 MVPs LEYENDO DE DATOS_RANKING.JS -->
+                <div class="card" style="border: 2px solid #fdd843; box-shadow: 0 0 20px rgba(253, 216, 67, 0.1);">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                        <h3 class="section-title" style="margin:0; color: #d89614;"><i class="fa-solid fa-medal"></i> Jugadores MVP</h3>
+                        <a href="ranking.html" style="font-size: 12px; color: var(--text-muted); text-decoration: none;">Ver lista completa &rarr;</a>
+                    </div>
+                    
+                    <div id="mvp-container">
+                        <!-- Javascript inyectará a los 3 mejores aquí -->
+                        <p style="font-size: 14px; color: var(--text-muted);">Cargando datos de ranking...</p>
+                    </div>
+                </div>
+
+                <!-- REGLAS DE ASISTENCIA / NOTA GENERAL -->
+                <div class="card">
+                    <h3 class="section-title"><i class="fa-solid fa-clipboard-check"></i> Requisitos y Asistencia</h3>
+                    <div style="background: var(--main-bg); padding: 20px; border-radius: 16px; border: 1px solid var(--border-color); margin-bottom: 15px;">
+                        <h4 style="font-size: 14px; margin-bottom: 8px;"><i class="fa-solid fa-triangle-exclamation" style="color: var(--accent-red);"></i> Regla de Inactividad</h4>
+                        <p style="font-size: 13px; color: var(--text-muted); line-height: 1.6;">Los jugadores con más de <strong>3 días de inactividad sin justificar</strong> serán removidos para dar espacio a nuevos aplicantes. Si vas a ausentarte, repórtalo en el canal de Discord.</p>
+                    </div>
+                    <div style="background: var(--main-bg); padding: 20px; border-radius: 16px; border: 1px solid var(--border-color);">
+                        <h4 style="font-size: 14px; margin-bottom: 8px;"><i class="fa-solid fa-bullseye" style="color: #1fb173;"></i> Participación en Asalto</h4>
+                        <p style="font-size: 13px; color: var(--text-muted); line-height: 1.6;">Es obligatorio gastar los <strong>3 tickets diarios</strong> durante la temporada de asalto. La coordinación de ataques a jefes problemáticos se lleva en Discord.</p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </main>
+
+    <!-- CHAT FLOTANTE DE DISCORD -->
+    <script src="https://cdn.jsdelivr.net/npm/@widgetbot/crate@3" async defer>
+        new Crate({
+            server: '1518747166494163045', 
+            channel: '1518747167261593632', 
+            color: '#292437', 
+            notifications: true 
+        })
+    </script>
+
+    <!-- IMPORTAR DATOS DEL RANKING PARA LOS MVPS -->
+    <script src="datos_ranking.js"></script>
+
+    <script>
+        // -------------------------------------------------------------------------
+        // CONEXIÓN CON GOOGLE SHEETS
+        // -------------------------------------------------------------------------
+        const apiURL = 'https://sheetdb.io/api/v1/rfy0fba41r17u';
+
+        fetch(apiURL)
+            .then(response => response.json())
+            .then(data => {
+                data.forEach(fila => {
+                    const elemento = document.getElementById('sheet-' + fila.clave);
+                    if (elemento) {
+                        elemento.innerHTML = fila.texto;
+                    }
+                });
+            })
+            .catch(error => console.error('Error al conectar con la hoja de cálculo:', error));
+        // -------------------------------------------------------------------------
+
+        // -------------------------------------------------------------------------
+        // INYECTAR LOS 3 MEJORES JUGADORES DESDE DATOS_RANKING.JS
+        // -------------------------------------------------------------------------
+        const mvpContainer = document.getElementById('mvp-container');
+        if(typeof rankingGremio !== 'undefined' && mvpContainer) {
+            mvpContainer.innerHTML = ''; // Limpiar texto de carga
+            // Tomar solo los primeros 3 del arreglo
+            const mvps = rankingGremio.slice(0, 3); 
+            
+            mvps.forEach(jugador => {
+                // Leer daño de asalto, o poner 0 si no existe
+                const dañoAsalto = jugador.dañoAsalto ? jugador.dañoAsalto : '0 M';
+                
+                mvpContainer.innerHTML += `
+                    <div style="display: flex; align-items: center; justify-content: space-between; padding: 15px; background: var(--main-bg); border-radius: 12px; margin-bottom: 12px; border: 1px solid var(--border-color);">
+                        <div style="display: flex; align-items: center; gap: 15px;">
+                            <span style="font-size: 20px; font-weight: 800; color: #d89614; width: 30px; text-align: center;">#${jugador.posicion}</span>
+                            <img src="${jugador.foto}" alt="${jugador.nombre}" style="width: 42px; height: 42px; border-radius: 50%; object-fit: cover; border: 2px solid #fdd843;">
+                            <span style="font-weight: 700; font-size: 15px;">${jugador.nombre}</span>
+                        </div>
+                        <div style="font-size: 16px; font-weight: 800; color: var(--accent-red);">
+                            ${dañoAsalto}
+                        </div>
+                    </div>
+                `;
+            });
+        }
+        // -------------------------------------------------------------------------
+
+        // MODO OSCURO Y MENÚ LATERAL
+        const sidebar = document.getElementById('sidebar');
+        const toggleBtn = document.getElementById('toggleSidebar');
+        toggleBtn.addEventListener('click', () => { sidebar.classList.toggle('collapsed'); });
+
+        const navTitles = document.querySelectorAll('.nav-title');
+        navTitles.forEach(title => {
+            title.addEventListener('click', () => {
+                const group = title.closest('.nav-group');
+                group.classList.toggle('collapsed-group');
+            });
+        });
+
+        const themeBtn = document.getElementById('themeToggle');
+        const rootElement = document.documentElement;
+
+        // Comprobar la memoria del navegador al cargar la página
+        if (localStorage.getItem('tema-casita') === 'dark') {
+            rootElement.setAttribute('data-theme', 'dark');
+            themeBtn.innerHTML = '<i class="fa-solid fa-sun"></i>';
+        } else {
+            themeBtn.innerHTML = '<i class="fa-solid fa-moon"></i>';
+        }
+
+        // Cambiar y guardar en la memoria
+        themeBtn.addEventListener('click', () => {
+            let isDark = rootElement.hasAttribute('data-theme');
+            if (isDark) {
+                rootElement.removeAttribute('data-theme');
+                localStorage.setItem('tema-casita', 'light');
+                themeBtn.innerHTML = '<i class="fa-solid fa-moon"></i>';
+            } else {
+                rootElement.setAttribute('data-theme', 'dark');
+                localStorage.setItem('tema-casita', 'dark');
+                themeBtn.innerHTML = '<i class="fa-solid fa-sun"></i>';
+            }
+        });
+    </script>
+</body>
+</html>
