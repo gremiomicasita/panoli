@@ -4,10 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Noticias - Mi Casita</title>
+    <!-- Importando fuentes e iconos -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
+        /* 
+         * ==========================================
+         * VARIABLES DE COLOR (TEMA CLARO Y OSCURO)
+         * ==========================================
+         */
         :root {
             --sidebar-bg: #292437;
             --sidebar-text: #9691a5;
@@ -23,6 +29,7 @@
             --transition-speed: 0.3s;
         }
 
+        /* Colores cuando el modo oscuro está activado */
         [data-theme="dark"] {
             --main-bg: #181521;
             --card-bg: #221e2d;
@@ -35,7 +42,9 @@
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
         body { display: flex; height: 100vh; background-color: var(--main-bg); color: var(--text-dark); transition: background-color var(--transition-speed), color var(--transition-speed); overflow: hidden; }
 
-        /* BARRA LATERAL UNIFICADA */
+        /* ==========================================
+         * BARRA LATERAL (SIDEBAR) UNIFICADA
+         * ========================================== */
         .sidebar { width: 260px; background-color: var(--sidebar-bg); color: var(--sidebar-text); display: flex; flex-direction: column; transition: width var(--transition-speed); overflow-y: auto; overflow-x: hidden; flex-shrink: 0; }
         .sidebar.collapsed { width: 0; padding: 0; }
         .sidebar-header { padding: 24px; display: flex; align-items: center; gap: 12px; margin-bottom: 10px; min-width: 260px; }
@@ -50,7 +59,9 @@
         .nav-item:hover { color: var(--sidebar-text-active); }
         .nav-item.active { background-color: var(--sidebar-bg-active); color: var(--sidebar-text-active); border-left: 4px solid var(--sidebar-btn); }
 
-        /* Main Content */
+        /* ==========================================
+         * CONTENIDO PRINCIPAL
+         * ========================================== */
         .main-content { flex: 1; display: flex; flex-direction: column; overflow-y: auto; padding-bottom: 80px; }
         .topbar { display: flex; justify-content: space-between; align-items: center; padding: 20px 40px; }
         .breadcrumbs { display: flex; align-items: center; gap: 15px; font-size: 14px; color: var(--text-muted); }
@@ -66,7 +77,9 @@
         .card { background-color: var(--card-bg); border-radius: 24px; padding: 40px; box-shadow: 0 4px 20px rgba(0,0,0,0.03); border: 1px solid var(--border-color); }
         .section-title { font-size: 12px; text-transform: uppercase; letter-spacing: 1px; color: var(--text-muted); margin-bottom: 30px; font-weight: 700; border-bottom: 1px solid var(--border-color); padding-bottom: 15px;}
 
-        /* Estilos específicos para las Noticias */
+        /* ==========================================
+         * ESTILOS ESPECÍFICOS PARA LAS NOTICIAS
+         * ========================================== */
         .news-article { padding-bottom: 30px; margin-bottom: 30px; border-bottom: 1px solid var(--border-color); }
         .news-article:last-child { border-bottom: none; padding-bottom: 0; margin-bottom: 0; }
         .news-meta { display: flex; gap: 10px; align-items: center; margin-bottom: 12px; font-size: 12px; font-weight: 600; }
@@ -87,9 +100,12 @@
 </head>
 <body>
 
-    <!-- BARRA LATERAL UNIFICADA -->
+    <!-- =========================================================================
+         MENÚ LATERAL UNIFICADO
+         ========================================================================= -->
     <aside class="sidebar" id="sidebar">
         <div class="sidebar-header">
+            <!-- Nota: Aquí cambias el logo de la esquina superior izquierda -->
             <img src="logo.jpg" alt="Logo" style="width: 40px; height: 40px; border-radius: 10px; object-fit: cover; flex-shrink: 0;">
             <div>
                 <h2>Mi Casita</h2>
@@ -101,6 +117,7 @@
             <div class="nav-title" title="Clic para desplegar">INICIO <i class="fa-solid fa-chevron-down"></i></div>
             <div class="nav-items-container">
                 <a href="index.html" class="nav-item"><i class="fa-solid fa-fire"></i> Fogata de bienvenida</a>
+                <!-- La clase "active" resalta en qué página te encuentras actualmente -->
                 <a href="noticias.html" class="nav-item active"><i class="fa-regular fa-newspaper"></i> Noticias del gremio</a>
             </div>
         </div>
@@ -132,7 +149,9 @@
         </div>
     </aside>
 
-    <!-- CONTENIDO PRINCIPAL -->
+    <!-- =========================================================================
+         CONTENIDO PRINCIPAL: MURO DE NOTICIAS
+         ========================================================================= -->
     <main class="main-content">
         <div class="topbar">
             <div class="breadcrumbs">
@@ -159,7 +178,11 @@
                 <div class="card">
                     <h3 class="section-title">Últimos comunicados oficiales</h3>
                     
-                    <!-- NOTICIA 1: IMPORTANTE -->
+                    <!-- =========================================================================
+                         NOTICIA 1: IMPORTANTE
+                         NOTA: Los textos "Cargando..." serán reemplazados por el valor de tu 
+                         hoja de cálculo (claves: noticia_imp_fecha, noticia_imp_titulo, noticia_imp_texto).
+                         ========================================================================= -->
                     <div class="news-article">
                         <div class="news-meta">
                             <span class="news-tag"><i class="fa-solid fa-bullhorn"></i> Importante</span>
@@ -169,9 +192,12 @@
                         <p id="sheet-noticia_imp_texto">Cargando contenido...</p>
                     </div>
 
-                    <!-- NOTICIA 2: GUÍA -->
+                    <!-- =========================================================================
+                         NOTICIA 2: GUÍA
+                         ========================================================================= -->
                     <div class="news-article">
                         <div class="news-meta">
+                            <!-- Si deseas cambiar el color de la etiqueta "Guía", modifica el background y color aquí -->
                             <span class="news-tag" style="background: #eafdf5; color: #1fb173;"><i class="fa-solid fa-book"></i> Guía</span>
                             <span class="news-date" id="sheet-noticia_guia_fecha">Cargando...</span>
                         </div>
@@ -179,7 +205,9 @@
                         <p id="sheet-noticia_guia_texto">Cargando contenido...</p>
                     </div>
 
-                    <!-- NOTICIA 3: EVENTO -->
+                    <!-- =========================================================================
+                         NOTICIA 3: EVENTO
+                         ========================================================================= -->
                     <div class="news-article">
                         <div class="news-meta">
                             <span class="news-tag" style="background: #fdf5ea; color: #e59935;"><i class="fa-solid fa-star"></i> Evento</span>
@@ -194,21 +222,27 @@
         </div>
     </main>
 
-    <!-- CHAT FLOTANTE DE DISCORD -->
+    <!-- =========================================================================
+         WIDGETBOT: CHAT FLOTANTE DE DISCORD
+         ========================================================================= -->
     <script src="https://cdn.jsdelivr.net/npm/@widgetbot/crate@3" async defer>
         new Crate({
-            server: '1518747166494163045', 
-            channel: '1518747167261593632', 
+            server: '1518747166494163045', // ID de Servidor Discord
+            channel: '1518747167261593632', // ID del canal
             color: '#292437', 
             notifications: true 
         })
     </script>
 
-    <!-- SCRIPT DE SHEETDB Y LOCALSTORAGE -->
+    <!-- =========================================================================
+         SCRIPTS Y LÓGICA DE LA PÁGINA
+         ========================================================================= -->
     <script>
         // -------------------------------------------------------------------------
-        // CONEXIÓN CON GOOGLE SHEETS
+        // CONEXIÓN CON GOOGLE SHEETS (API DE SHEETDB)
         // -------------------------------------------------------------------------
+        // Esta es la URL de tu API en SheetDB. Si alguna vez cambias la hoja de cálculo,
+        // deberás generar una nueva API y actualizar el enlace de abajo.
         const apiURL = 'https://sheetdb.io/api/v1/rfy0fba41r17u';
 
         fetch(apiURL)
@@ -217,7 +251,8 @@
                 data.forEach(fila => {
                     const elemento = document.getElementById('sheet-' + fila.clave);
                     if (elemento) {
-                        // Usamos innerHTML para que si envías etiquetas HTML en el excel (como <a> o <b>) se interpreten correctamente
+                        // Usamos "innerHTML" para que el texto de Google Sheets permita
+                        // etiquetas HTML, por ejemplo: <a href="link">Click aquí</a>
                         elemento.innerHTML = fila.texto;
                     }
                 });
@@ -227,7 +262,7 @@
 
 
         // -------------------------------------------------------------------------
-        // MEMORIA PARA EL MODO OSCURO (LOCALSTORAGE)
+        // LÓGICA DEL MENÚ LATERAL Y DESPLEGABLES
         // -------------------------------------------------------------------------
         const sidebar = document.getElementById('sidebar');
         const toggleBtn = document.getElementById('toggleSidebar');
@@ -241,6 +276,11 @@
             });
         });
 
+        // -------------------------------------------------------------------------
+        // MEMORIA PARA EL MODO OSCURO (LOCALSTORAGE)
+        // -------------------------------------------------------------------------
+        // Este bloque hace que la página "recuerde" en qué modo de color dejaste 
+        // la página anterior (oscuro o claro) y lo aplique automáticamente.
         const themeBtn = document.getElementById('themeToggle');
         const rootElement = document.documentElement;
         
@@ -252,7 +292,7 @@
             themeBtn.innerHTML = '<i class="fa-solid fa-moon"></i>';
         }
 
-        // Cambiar y guardar en la memoria
+        // Al hacer clic, cambiar el tema visual y guardarlo en la memoria
         themeBtn.addEventListener('click', () => {
             let isDark = rootElement.hasAttribute('data-theme');
             if (isDark) {
