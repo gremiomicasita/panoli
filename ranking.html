@@ -4,10 +4,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ranking - Mi Casita</title>
+    <!-- Importando fuentes e iconos -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
+        /* 
+         * ==========================================
+         * VARIABLES DE COLOR (TEMA CLARO Y OSCURO)
+         * ==========================================
+         * Aquí se definen los colores base. 
+         */
         :root {
             --sidebar-bg: #292437; --sidebar-text: #9691a5; --sidebar-text-active: #ffffff;
             --sidebar-bg-active: #3c354e; --sidebar-btn: #fdd843; --main-bg: #f9f5ed;
@@ -15,6 +22,7 @@
             --accent-red: #d84d65; --border-color: #e8e4dc; --transition-speed: 0.3s;
         }
 
+        /* Colores para el Modo Oscuro */
         [data-theme="dark"] {
             --main-bg: #181521; --card-bg: #221e2d; --text-dark: #f0eef5;
             --text-muted: #a39eb5; --border-color: #353045; --sidebar-bg: #14111c;
@@ -23,7 +31,9 @@
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
         body { display: flex; height: 100vh; background-color: var(--main-bg); color: var(--text-dark); transition: background-color var(--transition-speed), color var(--transition-speed); overflow: hidden; }
 
-        /* Sidebar */
+        /* ==========================================
+         * BARRA LATERAL (SIDEBAR) UNIFICADA
+         * ========================================== */
         .sidebar { width: 260px; background-color: var(--sidebar-bg); color: var(--sidebar-text); display: flex; flex-direction: column; transition: width var(--transition-speed); overflow-y: auto; overflow-x: hidden; flex-shrink: 0; }
         .sidebar.collapsed { width: 0; padding: 0; }
         .sidebar-header { padding: 24px; display: flex; align-items: center; gap: 12px; margin-bottom: 10px; min-width: 260px; }
@@ -38,7 +48,9 @@
         .nav-item:hover { color: var(--sidebar-text-active); }
         .nav-item.active { background-color: var(--sidebar-bg-active); color: var(--sidebar-text-active); border-left: 4px solid var(--sidebar-btn); }
 
-        /* Main Content */
+        /* ==========================================
+         * CONTENIDO PRINCIPAL
+         * ========================================== */
         .main-content { flex: 1; display: flex; flex-direction: column; overflow-y: auto; padding-bottom: 80px; }
         .topbar { display: flex; justify-content: space-between; align-items: center; padding: 20px 40px; }
         .breadcrumbs { display: flex; align-items: center; gap: 15px; font-size: 14px; color: var(--text-muted); }
@@ -53,7 +65,9 @@
         .grid-layout { display: flex; flex-direction: column; gap: 24px; }
         .card { background-color: var(--card-bg); border-radius: 24px; padding: 30px; box-shadow: 0 4px 20px rgba(0,0,0,0.03); border: 1px solid var(--border-color); }
 
-        /* NUEVA Tabla de Ranking Modificada */
+        /* ==========================================
+         * ESTILOS DE LA TABLA DE RANKING
+         * ========================================== */
         .ranking-container { overflow-x: auto; }
         table { width: 100%; border-collapse: separate; border-spacing: 0 10px; min-width: 950px; }
         th { text-align: center; padding: 10px 15px; font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: var(--text-muted); }
@@ -65,7 +79,11 @@
         .perfil-celda { display: flex; align-items: center; gap: 15px; text-align: left; }
         .foto-perfil { width: 36px; height: 36px; border-radius: 50%; object-fit: cover; background: var(--border-color); }
         
-        /* Efecto Dorado para el Top 5 */
+        /* 
+         * Efecto Dorado para el Top 5 
+         * Si el jugador es posición 1, 2, 3, 4 o 5, el sistema le aplica
+         * esta clase automáticamente para resaltarlo en dorado.
+         */
         .top-5 td { 
             background: linear-gradient(90deg, rgba(253, 216, 67, 0.15) 0%, rgba(253, 216, 67, 0.05) 100%);
             border-top: 1px solid rgba(253, 216, 67, 0.5); 
@@ -84,9 +102,12 @@
 </head>
 <body>
 
-    <!-- BARRA LATERAL UNIFICADA -->
+    <!-- =========================================================================
+         MENÚ LATERAL UNIFICADO
+         ========================================================================= -->
     <aside class="sidebar" id="sidebar">
         <div class="sidebar-header">
+            <!-- NOTA: Aquí cambias el logo de la esquina superior izquierda -->
             <img src="logo.jpg" alt="Logo" style="width: 40px; height: 40px; border-radius: 10px; object-fit: cover; flex-shrink: 0;">
             <div>
                 <h2>Mi Casita</h2>
@@ -107,6 +128,7 @@
             <div class="nav-items-container">
                 <a href="resumen.html" class="nav-item"><i class="fa-solid fa-chart-pie"></i> Resumen del gremio</a>
                 <a href="guia.html" class="nav-item"><i class="fa-solid fa-book-bookmark"></i> Guía</a>
+                <!-- La clase "active" resalta en qué página te encuentras actualmente -->
                 <a href="ranking.html" class="nav-item active"><i class="fa-solid fa-trophy"></i> Ranking de la casa</a>
             </div>
         </div>
@@ -129,13 +151,16 @@
         </div>
     </aside>
 
-    <!-- CONTENIDO PRINCIPAL -->
+    <!-- =========================================================================
+         CONTENIDO PRINCIPAL
+         ========================================================================= -->
     <main class="main-content">
         <div class="topbar">
             <div class="breadcrumbs">
                 <button class="toggle-btn" id="toggleSidebar" title="Ocultar/Mostrar Menú"><i class="fa-solid fa-bars"></i></button>
                 <span>Mi Casita &nbsp; > &nbsp; <b>Ranking de la casa</b></span>
             </div>
+            <!-- Botón de Modo Oscuro -->
             <button class="theme-btn" id="themeToggle"><i class="fa-solid fa-moon"></i></button>
         </div>
 
@@ -148,7 +173,13 @@
 
             <div class="grid-layout">
                 
-                <!-- Tabla de Ranking a ancho completo con doble encabezado -->
+                <!-- =========================================================================
+                     TABLA DE RANKING
+                     =========================================================================
+                     NOTA PARA EDITORES: ¡No escribas a los jugadores aquí! 
+                     Esta tabla está vacía a propósito. El código JavaScript que está más 
+                     abajo se encarga de rellenarla leyendo el archivo "datos_ranking.js". 
+                     ========================================================================= -->
                 <div class="card ranking-container">
                     <table id="tabla-ranking">
                         <thead>
@@ -172,7 +203,7 @@
                             </tr>
                         </thead>
                         <tbody id="cuerpo-tabla">
-                            <!-- Javascript inyectará las filas aquí -->
+                            <!-- Javascript inyectará las filas (<tr>) aquí automáticamente -->
                         </tbody>
                     </table>
                 </div>
@@ -181,28 +212,44 @@
         </div>
     </main>
 
-    <!-- CHAT FLOTANTE DE DISCORD -->
+    <!-- =========================================================================
+         WIDGETBOT: CHAT FLOTANTE DE DISCORD
+         ========================================================================= -->
     <script src="https://cdn.jsdelivr.net/npm/@widgetbot/crate@3" async defer>
         new Crate({
-            server: '1518747166494163045', 
-            channel: '1518747167261593632', 
+            server: '1518747166494163045', // ID del Servidor 
+            channel: '1518747167261593632', // ID del Canal
             color: '#292437', 
             notifications: true 
         })
     </script>
 
-    <!-- SCRIPTS -->
+    <!-- =========================================================================
+         SCRIPTS Y LÓGICA DE LA PÁGINA
+         ========================================================================= -->
+    
+    <!-- IMPORTANTE: Aquí mandamos a llamar a nuestro archivo con los 30 jugadores -->
     <script src="datos_ranking.js"></script>
+
     <script>
+        // -------------------------------------------------------------------------
+        // LÓGICA DE INYECCIÓN DE LA TABLA DE RANKING
+        // -------------------------------------------------------------------------
         const cuerpoTabla = document.getElementById('cuerpo-tabla');
         
+        // Comprueba que el archivo datos_ranking.js exista y se haya cargado bien
         if(typeof rankingGremio !== 'undefined' && cuerpoTabla) {
+            
+            // Recorre la lista de los 30 jugadores uno por uno
             rankingGremio.forEach(jugador => {
+                
+                // Si el jugador está entre el 1 y el 5, le pone la clase "top-5" para que brille dorado
                 const claseDorada = jugador.posicion <= 5 ? 'top-5' : '';
                 
-                // Si 'dañoAsalto' no existe en el JS, se pone '0 M' por defecto para no mostrar error
+                // Si alguien olvidó poner el dato 'dañoAsalto' en el JS, se pone '0 M' por defecto para evitar errores visuales
                 const dañoAsalto = jugador.dañoAsalto ? jugador.dañoAsalto : '0 M';
                 
+                // Inyecta el código HTML de la fila en la tabla con los datos del jugador
                 cuerpoTabla.innerHTML += `
                     <tr class="${claseDorada}">
                         <td><strong class="pos-numero">${jugador.posicion}</strong></td>
@@ -212,9 +259,9 @@
                                 <span>${jugador.nombre}</span>
                             </div>
                         </td>
-                        <!-- Nueva celda inyectada de Daño de Asalto -->
+                        <!-- Celda inyectada de Daño de Asalto Oficial -->
                         <td style="color: var(--accent-red); font-weight: 800; font-size: 16px;">${dañoAsalto}</td>
-                        <!-- Datos de Estafermo -->
+                        <!-- Celdas de daño de Estafermo -->
                         <td>${jugador.daño.basico}</td>
                         <td>${jugador.daño.luz}</td>
                         <td>${jugador.daño.oscuridad}</td>
@@ -225,13 +272,15 @@
                 `;
             });
         } else {
+            // Si el archivo datos_ranking.js no se encuentra, muestra un mensaje de error en la tabla
             if(cuerpoTabla) {
-                // Actualizado el colspan a 9 por la nueva columna
-                cuerpoTabla.innerHTML = '<tr><td colspan="9">Asegúrate de crear el archivo datos_ranking.js para ver la tabla.</td></tr>';
+                cuerpoTabla.innerHTML = '<tr><td colspan="9">Asegúrate de crear y conectar el archivo datos_ranking.js para ver la tabla.</td></tr>';
             }
         }
 
-        // Menú lateral
+        // -------------------------------------------------------------------------
+        // LÓGICA DEL MENÚ LATERAL
+        // -------------------------------------------------------------------------
         const sidebar = document.getElementById('sidebar');
         const toggleBtn = document.getElementById('toggleSidebar');
         toggleBtn.addEventListener('click', () => { sidebar.classList.toggle('collapsed'); });
@@ -247,6 +296,8 @@
         // -------------------------------------------------------------------------
         // MEMORIA PARA EL MODO OSCURO (LOCALSTORAGE)
         // -------------------------------------------------------------------------
+        // Nota: Esto hace que el navegador recuerde si dejaste la página en oscuro o claro
+        // al saltar de una pestaña a otra.
         const themeBtn = document.getElementById('themeToggle');
         const rootElement = document.documentElement;
 
@@ -258,7 +309,7 @@
             themeBtn.innerHTML = '<i class="fa-solid fa-moon"></i>';
         }
 
-        // Cambiar y guardar en la memoria
+        // Cambiar y guardar en la memoria el tema al darle click al botón del sol/luna
         themeBtn.addEventListener('click', () => {
             let isDark = rootElement.hasAttribute('data-theme');
             if (isDark) {
