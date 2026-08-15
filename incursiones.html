@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Incursiones - Mi Casita</title>
-    <!-- Importando fuentes e iconos -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
@@ -127,7 +126,7 @@
          ========================================================================= -->
     <aside class="sidebar" id="sidebar">
         <div class="sidebar-header">
-            <!-- Nota: Cambia "logo.jpg" por el nombre de tu imagen de logo si es necesario -->
+            <!-- Nota: Cambia "logo.jpg" por tu logo del gremio -->
             <img src="logo.jpg" alt="Logo" style="width: 40px; height: 40px; border-radius: 10px; object-fit: cover; flex-shrink: 0;">
             <div>
                 <h2>Mi Casita</h2>
@@ -203,8 +202,9 @@
                             
                             <div class="search-group">
                                 <label>Seleccionar Objetivo</label>
-                                <!-- Nota: Para añadir un jefe nuevo, agrégalo aquí abajo siguiendo 
-                                     el formato: <option value="nombre_interno">Nombre Visible</option> -->
+                                <!-- NOTA PARA EDITORES: Para añadir un jefe nuevo a la lista, 
+                                     agrégalo aquí abajo siguiendo el mismo formato.
+                                     <option value="nombre_interno">Nombre Visible</option> -->
                                 <select class="search-select" id="select-jefe">
                                     <option value="gast" selected>Gast</option>
                                     <option value="segador">Segador</option>
@@ -235,10 +235,10 @@
                             
                             <div class="search-group">
                                 <label>Seleccionar Elemento</label>
-                                <!-- Nota: Las opciones de elemento se llenan automáticamente
-                                     desde el código JavaScript de abajo dependiendo del Jefe que elijas. -->
+                                <!-- NOTA: Las opciones de este menú de Elemento se llenan automáticamente
+                                     desde el código JavaScript de abajo (sección "elementosPorJefe") -->
                                 <select class="search-select" id="select-elemento">
-                                    <!-- Las opciones se inyectan dinámicamente -->
+                                    <!-- Se inyectan dinámicamente -->
                                 </select>
                             </div>
                         </div>
@@ -248,8 +248,9 @@
                     <!-- =========================================================================
                          RESULTADOS: LISTA DE EQUIPOS 
                          =========================================================================
-                         Nota: Esta sección se hace visible cuando el usuario presiona el botón "Comenzar".
-                         Aquí editas los héroes de cada equipo y el daño que hacen.
+                         NOTA PARA EDITORES: Esta sección agrupa las tarjetas de los equipos.
+                         Si quieres añadir un nuevo equipo, copia todo el bloque desde 
+                         donde dice <div class="team-card"> hasta su cierre </div> y pégalo debajo.
                          ========================================================================= -->
                     <div id="resultados-equipos">
                         <div class="teams-title" id="titulo-resultados">Equipos encontrados</div>
@@ -262,20 +263,22 @@
                                     <div class="team-damage">364,8 <span>M</span></div>
                                 </div>
                                 <div class="team-heroes">
-                                    <!-- Íconos de los héroes (cambia las rutas de las imágenes src="") -->
+                                    <!-- Íconos de los héroes (Cambia el src="img/..." por la ruta de tu imagen) -->
                                     <img src="img/heroes/dabin.png" alt="Dabin" class="hero-icon" title="Dabin" onerror="this.src='https://via.placeholder.com/50/3c354e/ffffff?text=Dabin'">
                                     <img src="img/heroes/ameris.png" alt="Ameris" class="hero-icon" title="Ameris" onerror="this.src='https://via.placeholder.com/50/3c354e/ffffff?text=Ameris'">
                                     <img src="img/heroes/eunha.png" alt="Eunha" class="hero-icon" title="Eunha" onerror="this.src='https://via.placeholder.com/50/3c354e/ffffff?text=Eunha'">
                                     <img src="img/heroes/kamael.png" alt="Kamael" class="hero-icon" title="Kamael" onerror="this.src='https://via.placeholder.com/50/3c354e/ffffff?text=Kamael'">
                                 </div>
                                 <div class="team-actions">
-                                    <!-- Botón de Video -->
-                                    <!-- Nota: Cambia 'dQw4w9WgXcQ' por el ID real del video de YouTube -->
+                                    <!-- BOTÓN DE VIDEO -->
+                                    <!-- NOTA: Para cambiar el video, reemplaza 'dQw4w9WgXcQ' por el ID del video de YouTube que quieres mostrar. 
+                                         (El ID es el código extraño que está al final del link de YouTube después de v= ) -->
                                     <button class="action-btn" onclick="abrirVideoFlotante('dQw4w9WgXcQ', 'Video de Rotación')">
                                         <i class="fa-solid fa-video"></i> Video
                                     </button>
-                                    <!-- Botón de Cadenas -->
-                                    <!-- Nota: El 'info-1' debe coincidir con el id del panel que se abre abajo -->
+                                    
+                                    <!-- BOTÓN DE CADENAS -->
+                                    <!-- NOTA: El ID 'info-1' aquí, debe coincidir exactamente con el id="info-1" del panel de abajo -->
                                     <button class="action-btn" onclick="toggleInfo('info-1')">
                                         <i class="fa-solid fa-list"></i> Cadenas
                                     </button>
@@ -285,7 +288,7 @@
                             <!-- Panel desplegable de cadenas del Equipo 1 -->
                             <div class="team-info-panel" id="info-1">
                                 <span style="color: var(--text-muted); font-size: 11px; text-transform: uppercase; letter-spacing: 1px;">Secuencia de Cadenas</span><br>
-                                <!-- Aquí escribes los tiempos de las cadenas -->
+                                <!-- Aquí escribes los tiempos de las habilidades en cadena -->
                                 Chain 1 - Dabin 2.1s > Ameris 1.3s > Eunha 1.0s > Kamael 1.2s<br>
                                 Chain 2 - Dabin 1.8s > Ameris 1.3s > Eunha 1.5s > Kamael 1.2s
                             </div>
@@ -314,6 +317,7 @@
                                 </div>
                             </div>
                             
+                            <!-- Panel desplegable de cadenas del Equipo 2 (Nota el id="info-2") -->
                             <div class="team-info-panel" id="info-2">
                                 <span style="color: var(--text-muted); font-size: 11px; text-transform: uppercase; letter-spacing: 1px;">Secuencia de Cadenas</span><br>
                                 Chain 1 - Claude 1.5s > Oghma 1.2s > Comandante 1.0s > Kamael 1.5s
@@ -332,8 +336,8 @@
          ========================================================================= -->
     <script src="https://cdn.jsdelivr.net/npm/@widgetbot/crate@3" async defer>
         new Crate({
-            server: '1518747166494163045', 
-            channel: '1518747167261593632', 
+            server: '1518747166494163045', // ID Servidor
+            channel: '1518747167261593632', // ID Canal
             color: '#292437', 
             notifications: true 
         })
@@ -355,7 +359,7 @@
          ========================================================================= -->
     <script>
         // --- 1. LÓGICA DE MENÚS DESPLEGABLES DEPENDIENTES ---
-        // Aquí defines qué elementos se muestran en el segundo menú
+        // Aquí defines todos los elementos que existen en el juego
         const nombresElementos = {
             "luz": "Luz",
             "agua": "Agua",
@@ -365,15 +369,15 @@
             "oscuro": "Oscuro"
         };
 
-        // NOTA IMPORTANTE: Aquí configuras qué elementos le salen a qué jefe.
-        // Escribe el ID del jefe ("gast", "segador", etc.) y entre corchetes los elementos que le quieres asignar.
-        // Si no especificas un jefe aquí, el sistema le pondrá todos los elementos por defecto.
+        // NOTA PARA EDITORES: Aquí configuras qué elementos le salen a qué jefe.
+        // Escribe el ID del jefe en minúsculas y, entre corchetes, los elementos válidos.
+        // Si no especificas un jefe aquí, el sistema le pondrá los 6 elementos por defecto.
         const elementosPorJefe = {
-            "gast": ["luz", "agua", "tierra"], // Ejemplo: A Gast solo se le ataca con Luz, Agua y Tierra
+            "gast": ["luz", "agua", "tierra"], // Ejemplo: Gast solo permite Luz, Agua y Tierra
             "segador": ["fuego", "basico", "oscuro"], 
             "carmen": ["tierra", "agua"], 
-            // Añade más aquí:
-            // "director": ["luz", "fuego"],
+            // Añade más aquí de la siguiente forma:
+            // "nombre_jefe_select": ["elemento1", "elemento2"],
         };
 
         const selectJefe = document.getElementById("select-jefe");
@@ -385,7 +389,7 @@
         // Función que actualiza el segundo menú de "Elementos" cuando cambias de Jefe
         function actualizarElementos() {
             const jefe = selectJefe.value;
-            // Busca si el jefe está en la lista de arriba, si no, usa todos los elementos
+            // Busca si el jefe está en la lista "elementosPorJefe", si no, usa todos
             const elementos = elementosPorJefe[jefe] || Object.keys(nombresElementos);
 
             selectElemento.innerHTML = ""; // Limpiar lista
@@ -397,7 +401,7 @@
             });
         }
 
-        // Cada vez que elijas un jefe nuevo, se ejecuta la actualización
+        // Cada vez que el usuario elija un jefe nuevo, se ejecuta la actualización
         selectJefe.addEventListener("change", actualizarElementos);
 
         // Al darle clic a "Comenzar", mostramos la lista de equipos
@@ -405,12 +409,12 @@
             const nombreJefe = selectJefe.options[selectJefe.selectedIndex].text;
             const nombreElemento = selectElemento.options[selectElemento.selectedIndex].text;
             
-            // Actualiza el texto para decir "Equipos encontrados para [Nombre] ([Elemento])"
+            // Actualiza el texto para decir "Equipos encontrados para [Nombre Jefe] ([Elemento])"
             tituloResultados.innerText = `Equipos encontrados para ${nombreJefe} (${nombreElemento})`;
-            contenedorResultados.style.display = "block"; // Hace visible el contenedor
+            contenedorResultados.style.display = "block"; // Hace visible los equipos
         });
 
-        // Ejecutar una vez al cargar la página para que se llenen los datos base
+        // Ejecutar una vez al cargar la página para que se llenen los datos iniciales
         actualizarElementos();
 
 
@@ -422,25 +426,26 @@
             panel.classList.toggle('active');
         }
 
-        // Función para reproducir video de YouTube en el mini-reproductor
+        // Función para reproducir video de YouTube en el mini-reproductor flotante
         function abrirVideoFlotante(youtubeId, titulo) {
             const container = document.getElementById('floating-video-container');
             const slot = document.getElementById('floating-video-slot');
             const titleSpan = document.getElementById('floating-title');
             titleSpan.innerText = titulo;
-            // Inyecta el video oficial de YouTube, usando la variable youtubeId (El código raro del link de YT)
+            // Inyecta el iframe oficial de YouTube
             slot.innerHTML = `<iframe src="https://www.youtube.com/embed/${youtubeId}?autoplay=1" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
             container.style.display = 'flex';
         }
 
+        // Cierra la ventana y borra el video para que deje de sonar de fondo
         function cerrarVideoFlotante() {
             const container = document.getElementById('floating-video-container');
             const slot = document.getElementById('floating-video-slot');
-            slot.innerHTML = ''; // Borra el video para que deje de sonar
+            slot.innerHTML = ''; 
             container.style.display = 'none';
         }
 
-        // --- SISTEMA PARA ARRASTRAR EL VIDEO POR LA PANTALLA ---
+        // --- 3. SISTEMA PARA ARRASTRAR EL VIDEO POR LA PANTALLA ---
         const floatingContainer = document.getElementById('floating-video-container');
         const dragHandle = document.getElementById('floating-drag-handle');
         let isDragging = false;
@@ -451,7 +456,7 @@
             startX = e.clientX;
             startY = e.clientY;
             const rect = floatingContainer.getBoundingClientRect();
-            // Desactiva el anclaje inferior para permitir el movimiento libre
+            // Desactiva el anclaje para permitir el movimiento libre
             floatingContainer.style.bottom = 'auto';
             floatingContainer.style.right = 'auto';
             floatingContainer.style.top = rect.top + 'px';
@@ -476,7 +481,7 @@
             document.removeEventListener('mouseup', onMouseUp);
         }
 
-        // Menú Lateral
+        // Funciones del Menú Lateral
         const sidebar = document.getElementById('sidebar');
         const toggleBtn = document.getElementById('toggleSidebar');
         toggleBtn.addEventListener('click', () => { sidebar.classList.toggle('collapsed'); });
@@ -492,7 +497,6 @@
         // -------------------------------------------------------------------------
         // MEMORIA PARA EL MODO OSCURO (LOCALSTORAGE)
         // -------------------------------------------------------------------------
-        // Nota: Permite guardar el color de fondo elegido al cambiar entre pestañas.
         const themeBtn = document.getElementById('themeToggle');
         const rootElement = document.documentElement;
 
