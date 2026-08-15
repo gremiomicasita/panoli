@@ -22,7 +22,7 @@
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
-        body { display: flex; height: 100vh; background-color: var(--main-bg); color: var(--text-dark); transition: var(--transition-speed); overflow: hidden; }
+        body { display: flex; height: 100vh; background-color: var(--main-bg); color: var(--text-dark); transition: background-color var(--transition-speed), color var(--transition-speed); overflow: hidden; }
 
         /* BARRA LATERAL UNIFICADA */
         .sidebar { width: 260px; background-color: var(--sidebar-bg); color: var(--sidebar-text); display: flex; flex-direction: column; transition: width var(--transition-speed); overflow-y: auto; overflow-x: hidden; flex-shrink: 0; }
@@ -357,7 +357,7 @@
         actualizarElementos();
 
 
-        // --- 2. LÓGICA DEL RESTO DE LA PÁGINA (Video, Cadenas, Modo Oscuro) ---
+        // --- 2. LÓGICA DEL RESTO DE LA PÁGINA (Video, Cadenas) ---
         function toggleInfo(id) {
             const panel = document.getElementById(id);
             panel.classList.toggle('active');
@@ -425,11 +425,32 @@
             });
         });
         
+        // -------------------------------------------------------------------------
+        // MEMORIA PARA EL MODO OSCURO (LOCALSTORAGE)
+        // -------------------------------------------------------------------------
         const themeBtn = document.getElementById('themeToggle');
+        const rootElement = document.documentElement;
+
+        // Comprobar la memoria del navegador al cargar la página
+        if (localStorage.getItem('tema-casita') === 'dark') {
+            rootElement.setAttribute('data-theme', 'dark');
+            themeBtn.innerHTML = '<i class="fa-solid fa-sun"></i>';
+        } else {
+            themeBtn.innerHTML = '<i class="fa-solid fa-moon"></i>';
+        }
+
+        // Cambiar y guardar en la memoria
         themeBtn.addEventListener('click', () => {
-            let isDark = document.documentElement.hasAttribute('data-theme');
-            isDark ? document.documentElement.removeAttribute('data-theme') : document.documentElement.setAttribute('data-theme', 'dark');
-            themeBtn.innerHTML = isDark ? '<i class="fa-solid fa-moon"></i>' : '<i class="fa-solid fa-sun"></i>';
+            let isDark = rootElement.hasAttribute('data-theme');
+            if (isDark) {
+                rootElement.removeAttribute('data-theme');
+                localStorage.setItem('tema-casita', 'light');
+                themeBtn.innerHTML = '<i class="fa-solid fa-moon"></i>';
+            } else {
+                rootElement.setAttribute('data-theme', 'dark');
+                localStorage.setItem('tema-casita', 'dark');
+                themeBtn.innerHTML = '<i class="fa-solid fa-sun"></i>';
+            }
         });
     </script>
 </body>
