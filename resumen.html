@@ -4,10 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Resumen del Gremio - Mi Casita</title>
+    <!-- Importando fuentes e iconos -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
+        /* 
+         * ==========================================
+         * VARIABLES DE COLOR (TEMA CLARO Y OSCURO)
+         * ==========================================
+         */
         :root {
             --sidebar-bg: #292437; --sidebar-text: #9691a5; --sidebar-text-active: #ffffff;
             --sidebar-bg-active: #3c354e; --sidebar-btn: #fdd843; --main-bg: #f9f5ed;
@@ -15,6 +21,7 @@
             --accent-red: #d84d65; --border-color: #e8e4dc; --transition-speed: 0.3s;
         }
 
+        /* Colores para el Modo Oscuro */
         [data-theme="dark"] {
             --main-bg: #181521; --card-bg: #221e2d; --text-dark: #f0eef5;
             --text-muted: #a39eb5; --border-color: #353045; --sidebar-bg: #14111c;
@@ -23,7 +30,9 @@
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
         body { display: flex; height: 100vh; background-color: var(--main-bg); color: var(--text-dark); transition: background-color var(--transition-speed), color var(--transition-speed); overflow: hidden; }
 
-        /* Sidebar */
+        /* ==========================================
+         * BARRA LATERAL (SIDEBAR) UNIFICADA
+         * ========================================== */
         .sidebar { width: 260px; background-color: var(--sidebar-bg); color: var(--sidebar-text); display: flex; flex-direction: column; transition: width var(--transition-speed); overflow-y: auto; overflow-x: hidden; flex-shrink: 0; }
         .sidebar.collapsed { width: 0; padding: 0; }
         .sidebar-header { padding: 24px; display: flex; align-items: center; gap: 12px; margin-bottom: 10px; min-width: 260px; }
@@ -41,7 +50,9 @@
         .nav-item:hover { color: var(--sidebar-text-active); }
         .nav-item.active { background-color: var(--sidebar-bg-active); color: var(--sidebar-text-active); border-left: 4px solid var(--sidebar-btn); }
 
-        /* Main Content */
+        /* ==========================================
+         * CONTENIDO PRINCIPAL
+         * ========================================== */
         .main-content { flex: 1; display: flex; flex-direction: column; overflow-y: auto; padding-bottom: 80px; }
         .topbar { display: flex; justify-content: space-between; align-items: center; padding: 20px 40px; }
         .breadcrumbs { display: flex; align-items: center; gap: 15px; font-size: 14px; color: var(--text-muted); }
@@ -56,7 +67,9 @@
         .card { background-color: var(--card-bg); border-radius: 24px; padding: 30px; box-shadow: 0 4px 20px rgba(0,0,0,0.03); border: 1px solid var(--border-color); }
         .section-title { font-size: 12px; text-transform: uppercase; letter-spacing: 1px; color: var(--text-muted); margin-bottom: 20px; font-weight: 700; }
 
-        /* Grid de Estadísticas (NUEVO) */
+        /* ==========================================
+         * ESTILOS DEL GRID DE ESTADÍSTICAS GLOBALES
+         * ========================================== */
         .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px; margin-bottom: 30px; }
         .stat-box { background: var(--main-bg); padding: 25px; border-radius: 20px; border: 1px solid var(--border-color); display: flex; align-items: center; gap: 20px; transition: 0.3s; }
         .stat-box:hover { transform: translateY(-3px); box-shadow: 0 8px 15px rgba(0,0,0,0.05); }
@@ -64,7 +77,7 @@
         .stat-info h4 { font-size: 12px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 5px; }
         .stat-info p { font-size: 24px; font-weight: 800; color: var(--text-dark); }
 
-        /* Layout de dos columnas para abajo */
+        /* Layout de dos columnas para la sección inferior */
         .split-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
 
         @media (max-width: 1000px) {
@@ -75,8 +88,12 @@
 </head>
 <body>
 
+    <!-- =========================================================================
+         MENÚ LATERAL UNIFICADO
+         ========================================================================= -->
     <aside class="sidebar" id="sidebar">
        <div class="sidebar-header">
+            <!-- Nota: Aquí cambias el logo de la esquina superior izquierda -->
             <img src="logo.jpg" alt="Logo">
             <div>
                 <h2>Mi Casita</h2>
@@ -95,6 +112,7 @@
         <div class="nav-group">
             <div class="nav-title" title="Clic para desplegar">GREMIO <i class="fa-solid fa-chevron-down"></i></div>
             <div class="nav-items-container">
+                <!-- La clase "active" resalta la página en la que estamos -->
                 <a href="resumen.html" class="nav-item active"><i class="fa-solid fa-chart-pie"></i> Resumen del gremio</a>
                 <a href="guia.html" class="nav-item"><i class="fa-solid fa-book-bookmark"></i> Guía</a>
                 <a href="ranking.html" class="nav-item"><i class="fa-solid fa-trophy"></i> Ranking de la casa</a>
@@ -119,6 +137,9 @@
         </div>
     </aside>
 
+    <!-- =========================================================================
+         CONTENIDO PRINCIPAL
+         ========================================================================= -->
     <main class="main-content">
         <div class="topbar">
             <div class="breadcrumbs">
@@ -127,7 +148,7 @@
                 </button>
                 <span>Mi Casita &nbsp; > &nbsp; <b>Resumen del gremio</b></span>
             </div>
-            
+            <!-- Botón de Modo Oscuro -->
             <button class="theme-btn" id="themeToggle" title="Alternar Modo Oscuro">
                 <i class="fa-solid fa-moon"></i>
             </button>
@@ -140,7 +161,13 @@
                 <p>Métricas generales, capacidad actual y jugadores destacados basados en el último registro de asalto.</p>
             </div>
 
-            <!-- CUATRO TARJETAS DE MÉTRICAS GLOBALES (Vinculadas a SheetDB) -->
+            <!-- =========================================================================
+                 CUATRO TARJETAS DE MÉTRICAS GLOBALES (Vinculadas a SheetDB)
+                 =========================================================================
+                 NOTA: No escribas los datos aquí. El sistema buscará en tu hoja 
+                 de cálculo las claves "resumen_ranking", "resumen_miembros", etc.,
+                 y reemplazará el texto "Cargando...".
+                 ========================================================================= -->
             <div class="stats-grid">
                 <div class="stat-box">
                     <div class="stat-icon" style="background: #fdf5ea; color: #e59935;"><i class="fa-solid fa-earth-americas"></i></div>
@@ -175,10 +202,16 @@
                 </div>
             </div>
 
-            <!-- SECCIÓN INFERIOR DIVIDIDA -->
+            <!-- SECCIÓN INFERIOR DIVIDIDA EN DOS COLUMNAS -->
             <div class="split-layout">
                 
-                <!-- TOP 3 MVPs LEYENDO DE DATOS_RANKING.JS -->
+                <!-- =========================================================================
+                     TOP 3 MVPs (LEYENDO AUTOMÁTICAMENTE DE DATOS_RANKING.JS)
+                     =========================================================================
+                     NOTA PARA EDITORES: No tienes que escribir los nombres aquí.
+                     El código de abajo lee tu archivo "datos_ranking.js", escoge a los 
+                     3 primeros jugadores automáticamente y los dibuja en esta caja.
+                     ========================================================================= -->
                 <div class="card" style="border: 2px solid #fdd843; box-shadow: 0 0 20px rgba(253, 216, 67, 0.1);">
                     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
                         <h3 class="section-title" style="margin:0; color: #d89614;"><i class="fa-solid fa-medal"></i> Jugadores MVP</h3>
@@ -191,13 +224,20 @@
                     </div>
                 </div>
 
-                <!-- REGLAS DE ASISTENCIA / NOTA GENERAL -->
+                <!-- =========================================================================
+                     REGLAS DE ASISTENCIA / NOTA GENERAL
+                     =========================================================================
+                     NOTA: Aquí puedes editar el texto para cambiar las reglas del gremio.
+                     Todo lo que modifiques aquí se verá tal cual en la página.
+                     ========================================================================= -->
                 <div class="card">
                     <h3 class="section-title"><i class="fa-solid fa-clipboard-check"></i> Requisitos y Asistencia</h3>
+                    
                     <div style="background: var(--main-bg); padding: 20px; border-radius: 16px; border: 1px solid var(--border-color); margin-bottom: 15px;">
                         <h4 style="font-size: 14px; margin-bottom: 8px;"><i class="fa-solid fa-triangle-exclamation" style="color: var(--accent-red);"></i> Regla de Inactividad</h4>
                         <p style="font-size: 13px; color: var(--text-muted); line-height: 1.6;">Los jugadores con más de <strong>3 días de inactividad sin justificar</strong> serán removidos para dar espacio a nuevos aplicantes. Si vas a ausentarte, repórtalo en el canal de Discord.</p>
                     </div>
+                    
                     <div style="background: var(--main-bg); padding: 20px; border-radius: 16px; border: 1px solid var(--border-color);">
                         <h4 style="font-size: 14px; margin-bottom: 8px;"><i class="fa-solid fa-bullseye" style="color: #1fb173;"></i> Participación en Asalto</h4>
                         <p style="font-size: 13px; color: var(--text-muted); line-height: 1.6;">Es obligatorio gastar los <strong>3 tickets diarios</strong> durante la temporada de asalto. La coordinación de ataques a jefes problemáticos se lleva en Discord.</p>
@@ -208,23 +248,31 @@
         </div>
     </main>
 
-    <!-- CHAT FLOTANTE DE DISCORD -->
+    <!-- =========================================================================
+         WIDGETBOT: CHAT FLOTANTE DE DISCORD
+         ========================================================================= -->
     <script src="https://cdn.jsdelivr.net/npm/@widgetbot/crate@3" async defer>
         new Crate({
-            server: '1518747166494163045', 
-            channel: '1518747167261593632', 
+            server: '1518747166494163045', // ID Servidor Discord
+            channel: '1518747167261593632', // ID Canal Discord
             color: '#292437', 
             notifications: true 
         })
     </script>
 
-    <!-- IMPORTAR DATOS DEL RANKING PARA LOS MVPS -->
+    <!-- =========================================================================
+         IMPORTAR DATOS DEL RANKING PARA LOS MVPS
+         ========================================================================= -->
     <script src="datos_ranking.js"></script>
 
+    <!-- =========================================================================
+         SCRIPTS Y LÓGICA DE LA PÁGINA
+         ========================================================================= -->
     <script>
         // -------------------------------------------------------------------------
-        // CONEXIÓN CON GOOGLE SHEETS
+        // CONEXIÓN CON GOOGLE SHEETS (API DE SHEETDB)
         // -------------------------------------------------------------------------
+        // Esta es la URL de tu API en SheetDB. Reemplaza el enlace si cambias de hoja.
         const apiURL = 'https://sheetdb.io/api/v1/rfy0fba41r17u';
 
         fetch(apiURL)
@@ -244,15 +292,19 @@
         // INYECTAR LOS 3 MEJORES JUGADORES DESDE DATOS_RANKING.JS
         // -------------------------------------------------------------------------
         const mvpContainer = document.getElementById('mvp-container');
+        
+        // Verifica si existe el archivo y el contenedor
         if(typeof rankingGremio !== 'undefined' && mvpContainer) {
-            mvpContainer.innerHTML = ''; // Limpiar texto de carga
-            // Tomar solo los primeros 3 del arreglo
+            mvpContainer.innerHTML = ''; // Limpiar el texto "Cargando datos..."
+            
+            // "slice(0, 3)" toma únicamente a los 3 primeros jugadores de la lista
             const mvps = rankingGremio.slice(0, 3); 
             
             mvps.forEach(jugador => {
-                // Leer daño de asalto, o poner 0 si no existe
+                // Leer daño de asalto del jugador, si no puso el dato se pone '0 M'
                 const dañoAsalto = jugador.dañoAsalto ? jugador.dañoAsalto : '0 M';
                 
+                // Inyecta el HTML por cada MVP encontrado
                 mvpContainer.innerHTML += `
                     <div style="display: flex; align-items: center; justify-content: space-between; padding: 15px; background: var(--main-bg); border-radius: 12px; margin-bottom: 12px; border: 1px solid var(--border-color);">
                         <div style="display: flex; align-items: center; gap: 15px;">
@@ -269,7 +321,9 @@
         }
         // -------------------------------------------------------------------------
 
-        // MODO OSCURO Y MENÚ LATERAL
+        // -------------------------------------------------------------------------
+        // LÓGICA DEL MENÚ LATERAL Y DESPLEGABLES
+        // -------------------------------------------------------------------------
         const sidebar = document.getElementById('sidebar');
         const toggleBtn = document.getElementById('toggleSidebar');
         toggleBtn.addEventListener('click', () => { sidebar.classList.toggle('collapsed'); });
@@ -282,10 +336,14 @@
             });
         });
 
+        // -------------------------------------------------------------------------
+        // MEMORIA PARA EL MODO OSCURO (LOCALSTORAGE)
+        // -------------------------------------------------------------------------
+        // Recuerda si el usuario activó el modo oscuro en otra de las páginas.
         const themeBtn = document.getElementById('themeToggle');
         const rootElement = document.documentElement;
 
-        // Comprobar la memoria del navegador al cargar la página
+        // Comprobar la memoria al cargar
         if (localStorage.getItem('tema-casita') === 'dark') {
             rootElement.setAttribute('data-theme', 'dark');
             themeBtn.innerHTML = '<i class="fa-solid fa-sun"></i>';
@@ -293,7 +351,7 @@
             themeBtn.innerHTML = '<i class="fa-solid fa-moon"></i>';
         }
 
-        // Cambiar y guardar en la memoria
+        // Cambiar y guardar en memoria
         themeBtn.addEventListener('click', () => {
             let isDark = rootElement.hasAttribute('data-theme');
             if (isDark) {
