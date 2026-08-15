@@ -81,16 +81,11 @@
             min-width: 260px;
         }
 
-        .sidebar-header .logo-icon {
+        .sidebar-header img {
             width: 40px;
             height: 40px;
-            background: linear-gradient(135deg, #d84d65, #fdd843);
             border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 20px;
+            object-fit: cover;
             flex-shrink: 0;
         }
 
@@ -372,6 +367,8 @@
             gap: 15px;
             cursor: pointer;
             transition: 0.2s;
+            text-decoration: none;
+            color: var(--text-dark);
         }
 
         .activity-item:hover {
@@ -386,6 +383,7 @@
             align-items: center;
             justify-content: center;
             font-size: 16px;
+            flex-shrink: 0;
         }
 
         .icon-red { background-color: #fdeaea; color: var(--accent-red); }
@@ -404,6 +402,9 @@
         .activity-text p {
             font-size: 12px;
             color: var(--text-muted);
+            display: flex;
+            align-items: center;
+            gap: 5px;
         }
 
         /* Próxima actividad */
@@ -451,10 +452,10 @@
 </head>
 <body>
 
-    <!-- BARRA LATERAL (ACTUALIZADA) -->
+    <!-- BARRA LATERAL -->
     <aside class="sidebar" id="sidebar">
         <div class="sidebar-header">
-            <img src="logo.jpg" alt="Logo" style="width: 40px; height: 40px; border-radius: 10px; object-fit: cover; flex-shrink: 0;">
+            <img src="logo.jpg" alt="Logo">
             <div>
                 <h2>Mi Casita</h2>
                 <p>Gremio de Guardian Tales</p>
@@ -462,7 +463,7 @@
         </div>
 
         <div class="nav-group">
-            <div class="nav-title">INICIO</div>
+            <div class="nav-title" title="Clic para desplegar">INICIO <i class="fa-solid fa-chevron-down"></i></div>
             <div class="nav-items-container">
                 <a href="index.html" class="nav-item active"><i class="fa-solid fa-fire"></i> Fogata de bienvenida</a>
                 <a href="noticias.html" class="nav-item"><i class="fa-regular fa-newspaper"></i> Noticias del gremio</a>
@@ -470,7 +471,7 @@
         </div>
 
         <div class="nav-group">
-            <div class="nav-title">GREMIO</div>
+            <div class="nav-title" title="Clic para desplegar">GREMIO <i class="fa-solid fa-chevron-down"></i></div>
             <div class="nav-items-container">
                 <a href="resumen.html" class="nav-item"><i class="fa-solid fa-chart-pie"></i> Resumen del gremio</a>
                 <a href="guia.html" class="nav-item"><i class="fa-solid fa-book-bookmark"></i> Guía</a>
@@ -479,7 +480,7 @@
         </div>
         
         <div class="nav-group">
-            <div class="nav-title">CUENTOS DE GUARDIANES</div>
+            <div class="nav-title" title="Clic para desplegar">CUENTOS DE GUARDIANES <i class="fa-solid fa-chevron-down"></i></div>
             <div class="nav-items-container">
                 <a href="heroes.html" class="nav-item"><i class="fa-solid fa-users-viewfinder"></i> Héroes</a>
                 <a href="equipos.html" class="nav-item"><i class="fa-solid fa-shield-halved"></i> Equipos</a>
@@ -489,8 +490,10 @@
         </div>
 
         <div class="nav-group" style="margin-top: auto; padding-bottom: 20px;">
-            <a href="preferencias.html" class="nav-item"><i class="fa-solid fa-gear"></i> Preferencias</a>
-            <a href="ayuda.html" class="nav-item"><i class="fa-regular fa-circle-question"></i> Ayuda y atajos</a>
+            <div class="nav-items-container" style="max-height: none;">
+                <a href="preferencias.html" class="nav-item"><i class="fa-solid fa-gear"></i> Preferencias</a>
+                <a href="ayuda.html" class="nav-item"><i class="fa-regular fa-circle-question"></i> Ayuda y atajos</a>
+            </div>
         </div>
     </aside>
 
@@ -514,7 +517,7 @@
             <div class="welcome-header">
                 <div class="welcome-tag"><i class="fa-solid fa-square"></i> Temporada 3</div>
                 <h1>Bienvenida a <span>Mi Casita.</span></h1>
-                <p>Una posada pequeña para grandes aventuras. Comparte consejos, coordina tus carreras y celebra cada estrella conseguida.</p>
+                <p>Mensaje de bienvenida (pendiente).</p>
             </div>
 
             <div class="grid-layout">
@@ -524,11 +527,11 @@
                     <!-- Banner Hero -->
                     <div class="hero-card">
                         <div style="font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: #a8a3b5;">La fogata está encendida</div>
-                        <h2>Aquí cada aventura tiene un lugar donde volver.</h2>
+                        <h2 id="sheet-banner_titulo">Cargando...</h2>
                         <div class="hero-card-footer">
                             <div>
                                 <p style="font-size: 12px; color: #a8a3b5;">Próximo objetivo</p>
-                                <p style="font-size: 14px; font-weight: 600;">Completar el asalto esta semana</p>
+                                <p id="sheet-banner_sub" style="font-size: 14px; font-weight: 600;">Cargando...</p>
                             </div>
                             <a href="noticias.html" class="btn-yellow">Ver el gremio &rarr;</a>
                         </div>
@@ -544,7 +547,7 @@
                         <div id="top5-contenedor" style="display: flex; flex-direction: column; gap: 10px;"></div>
                     </div>
 
-                    <!-- Lo que está pasando -->
+                    <!-- Historias de la posada -->
                     <div>
                         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
                             <h3 class="section-title" style="margin:0;">Historias de la posada <br><span style="font-size: 18px; text-transform: none; color: var(--text-dark);">Lo que está pasando</span></h3>
@@ -552,32 +555,35 @@
                         </div>
 
                         <div class="activity-list">
-                            <div class="activity-item">
+                            <!-- Actividad 1: Noticia Principal (AQUÍ CAMBIÓ EL ID PARA CONECTARLO A LAS NOTICIAS) -->
+                            <a href="noticias.html" class="activity-item">
                                 <div class="activity-icon icon-red"><i class="fa-solid fa-hand-fist"></i></div>
                                 <div class="activity-text">
-                                    <h4>Nueva meta de asalto: 2.4M de daño <span style="background: var(--main-bg); padding: 2px 6px; border-radius: 4px; font-size: 10px; margin-left: 8px;">Comunicado</span></h4>
-                                    <p>Newt - ayer a las 21:40</p>
+                                    <h4><span id="sheet-noticia_imp_titulo">Cargando...</span> <span style="background: var(--main-bg); padding: 2px 6px; border-radius: 4px; font-size: 10px; margin-left: 8px;">Comunicado</span></h4>
+                                    <p><i class="fa-regular fa-clock"></i> <span id="sheet-noticia_imp_fecha">Cargando...</span></p>
                                 </div>
                                 <i class="fa-solid fa-arrow-right" style="color: var(--text-muted);"></i>
-                            </div>
+                            </a>
                             
-                            <div class="activity-item">
+                            <!-- Actividad 2: Bienvenida -->
+                            <a href="noticias.html" class="activity-item">
                                 <div class="activity-icon icon-green"><i class="fa-solid fa-heart"></i></div>
                                 <div class="activity-text">
-                                    <h4>Demos la bienvenida a ejemplo</h4>
-                                    <p>La familia crece - hace 3 h</p>
+                                    <h4 id="sheet-bienvenida_titulo">Cargando...</h4>
+                                    <p><i class="fa-regular fa-clock"></i> <span id="sheet-bienvenida_hora">Cargando...</span></p>
                                 </div>
                                 <i class="fa-solid fa-arrow-right" style="color: var(--text-muted);"></i>
-                            </div>
+                            </a>
 
-                            <div class="activity-item">
+                            <!-- Actividad 3: Guía -->
+                            <a href="guia.html" class="activity-item">
                                 <div class="activity-icon icon-yellow"><i class="fa-solid fa-book-open"></i></div>
                                 <div class="activity-text">
-                                    <h4>Guía del gremio</h4>
-                                    <p>Newt - hace 5 h</p>
+                                    <h4 id="sheet-guia_titulo">Cargando...</h4>
+                                    <p><i class="fa-regular fa-clock"></i> <span id="sheet-guia_hora">Cargando...</span></p>
                                 </div>
                                 <i class="fa-solid fa-arrow-right" style="color: var(--text-muted);"></i>
-                            </div>
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -585,7 +591,7 @@
                 <!-- Columna Derecha -->
                 <div style="display: flex; flex-direction: column; gap: 40px;">
                     
-                    <!-- Progreso: Asalto al Gremio con días (X/7) automatizados -->
+                    <!-- Progreso: Asalto al Gremio con días (X/7) -->
                     <div class="card">
                         <h3 class="section-title">Asalto al Gremio</h3>
                         
@@ -615,8 +621,8 @@
                         <div class="next-activity-card">
                             <div class="next-activity-content">
                                 <span style="font-size: 10px; color: var(--accent-red); font-weight: 700; text-transform: uppercase; letter-spacing: 1px;">Próximamente</span>
-                                <h2 style="font-size: 24px; font-weight: 800; margin: 8px 0;">Sin actividades</h2>
-                                <p style="font-size: 12px; color: var(--text-muted); margin-bottom: 5px;">Entramos juntos, probamos equipos y compartimos repeticiones sin presión.</p>
+                                <h2 id="sheet-prox_titulo" style="font-size: 24px; font-weight: 800; margin: 8px 0;">Cargando...</h2>
+                                <p id="sheet-prox_desc" style="font-size: 12px; color: var(--text-muted); margin-bottom: 5px;">Cargando...</p>
                             </div>
                         </div>
                     </div>
@@ -626,7 +632,7 @@
         </div>
     </main>
 
-    <!-- CHAT FLOTANTE DE DISCORD (NUEVO) -->
+    <!-- CHAT FLOTANTE DE DISCORD -->
     <script src="https://cdn.jsdelivr.net/npm/@widgetbot/crate@3" async defer>
         new Crate({
             server: '1518747166494163045',
@@ -639,30 +645,50 @@
     <!-- SCRIPTS -->
     <script src="datos_ranking.js"></script>
     <script>
-        // ----------------------------------------------------
-        // CONFIGURACIÓN DEL ASALTO AL GREMIO (CAMBIA ESTO)
-        // ----------------------------------------------------
-        // Cambia el primer número (días transcurridos del 0 al 7). 
-        // Si pones 0, mostrará automáticamente que no hay asalto activo.
-        const diasActuales = 6; 
-        const diasTotales = 7;
-        // ----------------------------------------------------
+        // -------------------------------------------------------------------------
+        // CONEXIÓN CON GOOGLE SHEETS
+        // -------------------------------------------------------------------------
+        const apiURL = 'https://sheetdb.io/api/v1/rfy0fba41r17u';
 
-        const porcentaje = Math.round((diasActuales / diasTotales) * 100);
-        
-        document.getElementById('porcentaje-texto').innerText = porcentaje + '%';
-        document.getElementById('barra-progreso').style.width = porcentaje + '%';
-        document.getElementById('dias-texto').innerText = `Días ${diasActuales}/${diasTotales}`;
+        fetch(apiURL)
+            .then(response => response.json())
+            .then(data => {
+                data.forEach(fila => {
+                    const elemento = document.getElementById('sheet-' + fila.clave);
+                    if (elemento) {
+                        // Usamos innerHTML para permitir etiquetas
+                        elemento.innerHTML = fila.texto;
+                    }
 
-        if (diasActuales === 0) {
-            document.getElementById('porcentaje-texto').style.display = 'none';
-            document.querySelector('.progress-bar').style.display = 'none';
-            document.getElementById('dias-texto').style.display = 'none';
-            document.getElementById('estado-texto').style.display = 'none';
-            document.getElementById('mensaje-sin-asalto').style.display = 'block';
-        } else {
-            document.getElementById('estado-texto').innerText = 'Activo';
-        }
+                    // Lógica para Días de Asalto
+                    if (fila.clave === 'dias_asalto') {
+                        const diasActuales = parseInt(fila.texto) || 0; 
+                        const diasTotales = 7;
+                        const porcentaje = Math.round((diasActuales / diasTotales) * 100);
+                        
+                        document.getElementById('porcentaje-texto').innerText = porcentaje + '%';
+                        document.getElementById('barra-progreso').style.width = porcentaje + '%';
+                        document.getElementById('dias-texto').innerText = `Días ${diasActuales}/${diasTotales}`;
+
+                        if (diasActuales === 0) {
+                            document.getElementById('porcentaje-texto').style.display = 'none';
+                            document.querySelector('.progress-bar').style.display = 'none';
+                            document.getElementById('dias-texto').style.display = 'none';
+                            document.getElementById('estado-texto').style.display = 'none';
+                            document.getElementById('mensaje-sin-asalto').style.display = 'block';
+                        } else {
+                            document.getElementById('porcentaje-texto').style.display = 'block';
+                            document.querySelector('.progress-bar').style.display = 'block';
+                            document.getElementById('dias-texto').style.display = 'block';
+                            document.getElementById('estado-texto').style.display = 'block';
+                            document.getElementById('estado-texto').innerText = 'Activo';
+                            document.getElementById('mensaje-sin-asalto').style.display = 'none';
+                        }
+                    }
+                });
+            })
+            .catch(error => console.error('Error al conectar con la hoja de cálculo:', error));
+        // -------------------------------------------------------------------------
 
         // Cargar Top 5
         const contenedorTop5 = document.getElementById('top5-contenedor');
@@ -684,7 +710,9 @@
             });
         }
 
-        // Menú y Modo Oscuro
+        // -------------------------------------------------------------------------
+        // MEMORIA PARA EL MODO OSCURO (LOCALSTORAGE)
+        // -------------------------------------------------------------------------
         const sidebar = document.getElementById('sidebar');
         const toggleBtn = document.getElementById('toggleSidebar');
         toggleBtn.addEventListener('click', () => { sidebar.classList.toggle('collapsed'); });
@@ -698,10 +726,28 @@
         });
 
         const themeBtn = document.getElementById('themeToggle');
+        const rootElement = document.documentElement;
+
+        // Comprobar al iniciar
+        if (localStorage.getItem('tema-casita') === 'dark') {
+            rootElement.setAttribute('data-theme', 'dark');
+            themeBtn.innerHTML = '<i class="fa-solid fa-sun"></i>';
+        } else {
+            themeBtn.innerHTML = '<i class="fa-solid fa-moon"></i>';
+        }
+
+        // Cambiar y guardar
         themeBtn.addEventListener('click', () => {
-            let isDark = document.documentElement.hasAttribute('data-theme');
-            isDark ? document.documentElement.removeAttribute('data-theme') : document.documentElement.setAttribute('data-theme', 'dark');
-            themeBtn.innerHTML = isDark ? '<i class="fa-solid fa-moon"></i>' : '<i class="fa-solid fa-sun"></i>';
+            let isDark = rootElement.hasAttribute('data-theme');
+            if (isDark) {
+                rootElement.removeAttribute('data-theme');
+                localStorage.setItem('tema-casita', 'light');
+                themeBtn.innerHTML = '<i class="fa-solid fa-moon"></i>';
+            } else {
+                rootElement.setAttribute('data-theme', 'dark');
+                localStorage.setItem('tema-casita', 'dark');
+                themeBtn.innerHTML = '<i class="fa-solid fa-sun"></i>';
+            }
         });
     </script>
 </body>
