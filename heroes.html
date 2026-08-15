@@ -4,11 +4,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Héroes - Mi Casita</title>
+    <!-- Importando fuentes e iconos -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
-        /* VARIABLES DE COLOR */
+        /* 
+         * ==========================================
+         * VARIABLES DE COLOR
+         * ==========================================
+         * Si quieres cambiar los colores del botón "Mito" o "Estándar",
+         * modifica "--myth-color" y "--std-color".
+         */
         :root {
             --sidebar-bg: #292437; --sidebar-text: #9691a5; --sidebar-text-active: #ffffff;
             --sidebar-bg-active: #3c354e; --sidebar-btn: #fdd843; --main-bg: #f9f5ed;
@@ -17,6 +24,7 @@
             --myth-color: #d84d65; --std-color: #4299f6;
         }
 
+        /* Colores para el Modo Oscuro */
         [data-theme="dark"] {
             --main-bg: #181521; --card-bg: #221e2d; --text-dark: #f0eef5;
             --text-muted: #a39eb5; --border-color: #353045; --sidebar-bg: #14111c;
@@ -25,7 +33,9 @@
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
         body { display: flex; height: 100vh; background-color: var(--main-bg); color: var(--text-dark); transition: background-color var(--transition-speed), color var(--transition-speed); overflow: hidden; }
 
-        /* BARRA LATERAL (SIDEBAR) UNIFICADA */
+        /* ==========================================
+         * BARRA LATERAL (SIDEBAR) 
+         * ========================================== */
         .sidebar { width: 260px; background-color: var(--sidebar-bg); color: var(--sidebar-text); display: flex; flex-direction: column; transition: width var(--transition-speed); overflow-y: auto; overflow-x: hidden; flex-shrink: 0; }
         .sidebar.collapsed { width: 0; padding: 0; }
         .sidebar-header { padding: 24px; display: flex; align-items: center; gap: 12px; margin-bottom: 10px; min-width: 260px; }
@@ -43,14 +53,15 @@
         .nav-item:hover { color: var(--sidebar-text-active); }
         .nav-item.active { background-color: var(--sidebar-bg-active); color: var(--sidebar-text-active); border-left: 4px solid var(--sidebar-btn); }
         
-        /* CONTENIDO PRINCIPAL */
+        /* ==========================================
+         * CONTENIDO PRINCIPAL Y BUSCADOR
+         * ========================================== */
         .main-content { flex: 1; display: flex; flex-direction: column; overflow-y: auto; padding-bottom: 80px; }
         .topbar { display: flex; justify-content: space-between; align-items: center; padding: 20px 40px; }
         .breadcrumbs { display: flex; align-items: center; gap: 15px; font-size: 14px; color: var(--text-muted); }
         .toggle-btn, .theme-btn { background: none; border: none; color: var(--text-dark); font-size: 20px; cursor: pointer; padding: 8px; border-radius: 50%; background-color: var(--card-bg); box-shadow: 0 2px 10px rgba(0,0,0,0.05); transition: 0.3s; }
         .dashboard-container { padding: 20px 40px 60px 40px; max-width: 1400px; margin: 0 auto; width: 100%; }
 
-        /* HEADER DE GALERÍA Y BUSCADOR */
         .gallery-header { background: var(--card-bg); padding: 30px; border-radius: 20px; border: 1px solid var(--border-color); margin-bottom: 20px; display: flex; align-items: center; gap: 20px; }
         .gallery-icon { width: 60px; height: 60px; border-radius: 15px; background: #3c354e; display: flex; align-items: center; justify-content: center; font-size: 24px; color: white; }
         .gallery-title h1 { font-size: 28px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; }
@@ -62,7 +73,9 @@
         .search-input, .sort-select { padding: 12px 15px; border-radius: 10px; border: 1px solid var(--border-color); background: var(--card-bg); color: var(--text-dark); font-size: 14px; font-weight: 600; outline: none; width: 100%; cursor: pointer; }
         .sort-box { flex: 1; display: flex; flex-direction: column; gap: 8px; min-width: 200px; }
 
-        /* GRID DE HÉROES (ROSTROS) */
+        /* ==========================================
+         * GRID DE HÉROES (CUADRÍCULA DE ROSTROS)
+         * ========================================== */
         .hero-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(90px, 1fr)); gap: 15px; }
         .hero-card { position: relative; border-radius: 12px; overflow: hidden; cursor: pointer; transition: 0.2s; border: 2px solid transparent; background: #292437; aspect-ratio: 1/1; }
         .hero-card:hover { transform: translateY(-5px); border-color: var(--sidebar-btn); box-shadow: 0 5px 15px rgba(0,0,0,0.2); }
@@ -71,7 +84,9 @@
         .hero-stars-container { position: absolute; bottom: 5px; left: 0; width: 100%; display: flex; justify-content: center; gap: 2px; z-index: 2; }
         .hero-star { width: 14px; height: 14px; filter: drop-shadow(0 2px 2px rgba(0,0,0,0.8)); }
 
-        /* VENTANA MODAL (POPUP) */
+        /* ==========================================
+         * VENTANA MODAL (POPUP DEL PERFIL DEL HÉROE)
+         * ========================================== */
         .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 1000; display: flex; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: opacity 0.3s ease; }
         .modal-overlay.active { opacity: 1; pointer-events: auto; }
         
@@ -150,9 +165,12 @@
 </head>
 <body>
 
-    <!-- BARRA LATERAL UNIFICADA -->
+    <!-- =========================================================================
+         MENÚ LATERAL UNIFICADO
+         ========================================================================= -->
     <aside class="sidebar" id="sidebar">
         <div class="sidebar-header">
+            <!-- NOTA: Aquí cambias el logo de la esquina superior izquierda -->
             <img src="logo.jpg" alt="Logo" style="width: 40px; height: 40px; border-radius: 10px; object-fit: cover; flex-shrink: 0;">
             <div>
                 <h2>Mi Casita</h2>
@@ -180,13 +198,14 @@
         <div class="nav-group">
             <div class="nav-title" title="Clic para desplegar">CUENTOS DE GUARDIANES <i class="fa-solid fa-chevron-down"></i></div>
             <div class="nav-items-container">
+                <!-- La clase "active" resalta en qué página te encuentras actualmente -->
                 <a href="heroes.html" class="nav-item active"><i class="fa-solid fa-users-viewfinder"></i> Héroes</a>
                 <a href="equipos.html" class="nav-item"><i class="fa-solid fa-shield-halved"></i> Equipos</a>
                 <a href="incursiones.html" class="nav-item"><i class="fa-solid fa-ghost"></i> Incursiones</a>
                 <a href="recursos.html" class="nav-item"><i class="fa-regular fa-gem"></i> Recursos</a>
             </div>
         </div>
-        
+
         <div class="nav-group" style="margin-top: auto; padding-bottom: 20px;">
             <div class="nav-items-container" style="max-height: none;">
                 <a href="preferencias.html" class="nav-item"><i class="fa-solid fa-gear"></i> Preferencias</a>
@@ -195,13 +214,16 @@
         </div>
     </aside>
 
-    <!-- CONTENIDO PRINCIPAL -->
+    <!-- =========================================================================
+         CONTENIDO PRINCIPAL DE HÉROES
+         ========================================================================= -->
     <main class="main-content">
         <div class="topbar">
             <div class="breadcrumbs">
                 <button class="toggle-btn" id="toggleSidebar"><i class="fa-solid fa-bars"></i></button>
                 <span>Mi Casita &nbsp; > &nbsp; Cuentos de Guardianes &nbsp; > &nbsp; <b>Héroes</b></span>
             </div>
+            <!-- Botón de Modo Oscuro -->
             <button class="theme-btn" id="themeToggle"><i class="fa-solid fa-moon"></i></button>
         </div>
 
@@ -231,11 +253,18 @@
             </div>
 
             <!-- CUADRÍCULA DE ROSTROS DE HÉROES -->
+            <!-- Nota: Esta sección está vacía en el HTML porque el código Javascript 
+                 de más abajo se encarga de inyectar las fotos automáticamente. -->
             <div class="hero-grid" id="heroGrid"></div>
         </div>
     </main>
 
-    <!-- VENTANA MODAL OCULTA -->
+    <!-- =========================================================================
+         VENTANA MODAL (POPUP) OCULTA AL INICIO
+         =========================================================================
+         Nota: Cuando le das clic a un héroe, esta ventana se hace visible.
+         El texto "Cargando" se reemplazará automáticamente con la info del héroe.
+         ========================================================================= -->
     <div class="modal-overlay" id="heroModal">
         <div class="modal-content">
             <div class="modal-header">
@@ -261,11 +290,11 @@
                         <div class="tilt-glass-box">
                             <div class="tilt-header-box">
                                 <div>
-                                    <h2 class="tilt-name" id="t-name-plate">BETH</h2>
+                                    <h2 class="tilt-name" id="t-name-plate">Nombre Heroe</h2>
                                     <p class="tilt-level">Nivel 100</p>
                                 </div>
                                 <div class="tilt-icons">
-                                    <i id="t-icon" class="fa-solid fa-moon" style="color: #7b42f6;"></i>
+                                    <i id="t-icon" class="fa-solid fa-moon"></i>
                                 </div>
                             </div>
                             
@@ -298,11 +327,11 @@
                         
                         <div class="skill-item">
                             <div class="skill-type">Ataque Normal</div>
-                            <div class="skill-name" id="k-normal-name">Golpe Oscuro</div>
-                            <div class="skill-desc" id="k-normal-desc">Inflige daño...</div>
+                            <div class="skill-name" id="k-normal-name">Cargando</div>
+                            <div class="skill-desc" id="k-normal-desc">Cargando</div>
                         </div>
 
-                        <!-- Oculto por defecto hasta tocar Mito -->
+                        <!-- Oculto por defecto hasta tocar el botón Mito -->
                         <div class="skill-item" id="k-myth-box" style="display:none; background: rgba(216, 77, 101, 0.1); padding: 10px; border-radius: 8px; border-left: 3px solid var(--myth-color);">
                             <div class="skill-type" style="color: var(--myth-color);">Nodo de Despertar Latente</div>
                             <div class="skill-name myth-text">Mejora del Mito</div>
@@ -363,24 +392,27 @@
         </div>
     </div>
 
-    <!-- CHAT FLOTANTE DE DISCORD (NUEVO) -->
+    <!-- =========================================================================
+         WIDGETBOT: CHAT FLOTANTE DE DISCORD
+         ========================================================================= -->
     <script src="https://cdn.jsdelivr.net/npm/@widgetbot/crate@3" async defer>
         new Crate({
-            server: '1518747166494163045', 
-            channel: '1518747167261593632', 
+            server: '1518747166494163045', // Reemplaza con ID de Servidor si es necesario
+            channel: '1518747167261593632', // Reemplaza con ID de Canal si es necesario
             color: '#292437', 
             notifications: true 
         })
     </script>
 
-    <!-- SCRIPT DE LIBRERÍA 3D -->
+    <!-- SCRIPT DE LIBRERÍA 3D (Efecto de movimiento de la tarjeta) -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.8.0/vanilla-tilt.min.js"></script>
     
-    <!-- SCRIPT DE DATOS Y LÓGICA -->
+    <!-- =========================================================================
+         SCRIPT DE DATOS Y LÓGICA (AQUÍ ESTÁ LA BASE DE DATOS)
+         ========================================================================= -->
     <script>
-        // ==========================================
-        // DICCIONARIOS DE ICONOS Y ORDEN DE RAREZAS
-        // ==========================================
+        // Diccionarios de iconos de rareza
+        // Si necesitas agregar una rareza nueva, añade la ruta de su imagen aquí.
         const starIcons = {
             "rarity-1": "https://www.gtales.top/assets/icons/rarity-1.svg",
             "rarity-2": "https://www.gtales.top/assets/icons/rarity-2.svg",
@@ -390,39 +422,46 @@
             "rarity-myth": "https://www.gtales.top/assets/icons/rarity-myth.svg"
         };
 
+        // Orden de peso para ordenar de "Mejor a Peor"
         const rarityWeights = {
-            "rarity-myth": 6,
-            "rarity-ascend": 5,
-            "rarity-collab": 4,
-            "rarity-3": 3,
-            "rarity-2": 2,
-            "rarity-1": 1
+            "rarity-myth": 6, "rarity-ascend": 5, "rarity-collab": 4,
+            "rarity-3": 3, "rarity-2": 2, "rarity-1": 1
         };
 
-        // ==========================================
-        // BASE DE DATOS DE HÉROES
-        // Se separó el arma en "std" (Estándar) y "myth" (Mito)
-        // ==========================================
+        // =========================================================================
+        // BASE DE DATOS DE HÉROES (Aquí agregas o modificas personajes)
+        // =========================================================================
+        // Instrucciones para añadir un héroe:
+        // 1. Copia desde el `{` que abre un héroe, hasta el `},` que lo cierra.
+        // 2. Pégalo debajo del último héroe y llena los datos entre comillas "".
+        // 3. Tipos de rareza válidos: "rarity-3", "rarity-ascend", "rarity-myth", etc.
+        // 4. Elementos válidos: "oscuro", "luz", "tierra", "fuego", "agua", "basico".
+        // 5. Si el héroe NO TIENE arma épica (hasMyth: false), deja el "myth: {}" con 0s y textos vacíos.
+        
         const heroesDB = [
             {
-                id: "beth",
-                name: "Beth",
-                rarity: "rarity-3", 
-                upgradeRarity: "rarity-myth", 
-                element: "oscuro",
-                elementIcon: "fa-moon",
-                color: "#7b42f6",
-                icon: "https://www.gtales.top/assets/heroes/bet.webp", // imagen de perfil de beth
+                id: "beth", // Un ID único (sin espacios ni mayúsculas)
+                name: "Beth", // Nombre visible
+                rarity: "rarity-3", // Rareza estándar
+                upgradeRarity: "rarity-myth", // Rareza máxima (Ascenso o Mito)
                 
-                // Imágenes separadas para Estándar y Mito
-                fullImg: "https://www.gtales.top/assets/arts/bet.webp", 
-                fullImgMyth: "https://www.gtales.top/assets/arts/myth/bet.webp", 
+                element: "oscuro", 
+                elementIcon: "fa-moon", // Iconos de FontAwesome (fa-moon, fa-sun, fa-leaf, fa-fire, fa-droplet, fa-certificate)
+                color: "#7b42f6", // Código de color del elemento
                 
-                hasMyth: true,
+                // Enlaces de imágenes (Obtenidos de gtales.top o donde prefieras)
+                icon: "https://www.gtales.top/assets/heroes/bet.webp", // Rostro pequeño
+                fullImg: "https://www.gtales.top/assets/arts/bet.webp", // Arte Estándar
+                fullImgMyth: "https://www.gtales.top/assets/arts/myth/bet.webp", // Arte de Mito/Ascenso
+                
+                hasMyth: true, // Pon "true" si tiene mejora de mito/ascenso, "false" si no tiene
+                
+                // Estadísticas (separadas en versión Normal y versión Mito)
                 stats: {
                     std: { dps: "83K", tough: "431K", hp: "105K", def: "505" },
                     myth: { dps: "105K", tough: "580K", hp: "130K", def: "610" } 
                 },
+                // Habilidades del personaje
                 skills: {
                     normalName: "Golpe Oscuro",
                     normalDesc: "Inflige daño cuerpo a cuerpo a los enemigos con una espada a dos manos imbuida de maná.",
@@ -433,12 +472,12 @@
                     party: "Daño Cuerpo a Cuerpo +50%",
                     mythDesc: "La habilidad Golpe Oscuro se añade a Golpe Oscuro - Orbe Oscuro. Lanza una esfera de maná para infligir daño a distancia."
                 },
-                // Armas separadas
+                // Arma Exclusiva (Separada en versión Normal y Épica/Mito)
                 weapon: {
                     std: {
                         name: "Depredador",
                         type: "Espada a dos manos",
-                        img: "https://www.gtales.top/assets/weapons/bet.webp",  //arma estado basica
+                        img: "https://www.gtales.top/assets/weapons/bet.webp",
                         dps: "7865",
                         effect: "Al impactar con Golpe Oscuro, disminuye la resistencia al Tipo Oscuro en un 20% durante 3 segundos.",
                         skillName: "Ataque de Depredador",
@@ -447,14 +486,14 @@
                     myth: {
                         name: "Depredador",
                         type: "Espada Épica a dos manos (Nivel 150)",
-                        img: "https://www.gtales.top/assets/weapons/myth/bet.webp", //arma estado epica
+                        img: "https://www.gtales.top/assets/weapons/myth/bet.webp",
                         dps: "11010",
                         effect: "Al impactar con Golpe Oscuro, disminuye la resistencia al tipo Oscuro en un 30% durante 3 segundos y genera un escudo equivalente al 10% del daño infligido a los enemigos.",
                         skillName: "Ataque de Depredador",
                         skillDesc: "Salta en el aire y golpea el suelo con su espada a dos manos para infligir daño de área cuerpo a cuerpo. Deja a los enemigos derribados. (CD 8s, DPS 235%)"
                     }
                 }
-            },
+            }, // <-- Fíjate que lleva una coma si hay otro héroe debajo
             {
                 id: "kamael",
                 name: "Kamael",
@@ -465,11 +504,13 @@
                 color: "#42f675",
                 icon: "https://via.placeholder.com/150/42f675/ffffff?text=Kamael",
                 fullImg: "https://via.placeholder.com/400x600/181521/ffffff?text=Arte+Kamael",
-                fullImgMyth: "", // Vacío porque no tiene mito
-                hasMyth: false, 
+                fullImgMyth: "", // Vacío porque Kamael no tiene mito (hasMyth es false)
+                
+                hasMyth: false, // <-- IMPORTANTE: Falso si no tiene versión épica/mito
+                
                 stats: {
                     std: { dps: "75K", tough: "380K", hp: "95K", def: "450" },
-                    myth: { dps: "0", tough: "0", hp: "0", def: "0" } 
+                    myth: { dps: "0", tough: "0", hp: "0", def: "0" } // Se deja en cero
                 },
                 skills: {
                     normalName: "Círculo de Vida",
@@ -479,7 +520,7 @@
                     chainName: "Purificación",
                     chainDesc: "Inflige daño y elimina los efectos negativos de los aliados.",
                     party: "Daño a Distancia +50%",
-                    mythDesc: ""
+                    mythDesc: "" // Vacío
                 },
                 weapon: {
                     std: {
@@ -490,19 +531,23 @@
                         effect: "Aumenta el rango y la velocidad de Círculo de Vida.",
                         skillName: "Tormenta de Tierra",
                         skillDesc: "Invoca un tornado que daña y lanza por los aires a los enemigos."
+                    },
+                    myth: { // Se deja con texto vacío por si acaso
+                        name: "", type: "", img: "", dps: "", effect: "", skillName: "", skillDesc: ""
                     }
                 }
-            }
+            } // <-- El último héroe de la lista no lleva coma al final.
         ];
 
         // ==========================================
-        // LÓGICA DE INTERFAZ Y MODAL
+        // LÓGICA DE INTERFAZ Y MODAL (NO ES NECESARIO TOCAR ESTO)
         // ==========================================
         const grid = document.getElementById('heroGrid');
         let currentHero = null;
         let currentMode = 'std';
         let filteredHeroes = [...heroesDB]; 
 
+        // Función que filtra el buscador y la pestaña "Ordenar por"
         function applyFiltersAndSort() {
             const searchTerm = document.getElementById('searchInput').value.toLowerCase();
             const sortValue = document.getElementById('sortSelect').value;
@@ -520,6 +565,7 @@
             renderGallery();
         }
 
+        // Pinta los rostros en la galería
         function renderGallery() {
             grid.innerHTML = '';
             filteredHeroes.forEach(hero => {
@@ -545,6 +591,7 @@
             });
         }
 
+        // Abre el perfil del héroe (Ventana flotante)
         function openModal(id) {
             currentHero = heroesDB.find(h => h.id === id);
             currentMode = 'std'; 
@@ -563,6 +610,7 @@
             document.getElementById('k-party').innerText = currentHero.skills.party;
 
             const btnMyth = document.getElementById('btnMyth');
+            // Revisa si en la base de datos marcaste hasMyth como True o False
             if (currentHero.hasMyth) {
                 btnMyth.disabled = false;
                 btnMyth.innerText = " Mito / Ascenso";
@@ -571,12 +619,12 @@
                 btnMyth.innerText = " Sin Mejora";
             }
 
-            // Aplicar stats, estrellas y armas (Esto inyecta todo lo visual)
             updateModeUI();
 
             const modal = document.getElementById('heroModal');
             modal.classList.add('active');
 
+            // Inicia el efecto 3D de VanillaTilt
             const tiltNode = document.querySelector(".tilt-card-wrapper");
             if (tiltNode.vanillaTilt) { tiltNode.vanillaTilt.destroy(); }
             VanillaTilt.init(tiltNode, { max: 15, speed: 400, glare: true, "max-glare": 0.4 });
@@ -586,6 +634,7 @@
             document.getElementById('heroModal').classList.remove('active');
         }
 
+        // Alterna entre ver la pestaña "Estándar" o "Mito" en el Perfil
         function setMode(mode) {
             if (mode === 'myth' && !currentHero.hasMyth) return; 
             currentMode = mode;
@@ -606,20 +655,20 @@
             }
             document.getElementById('modal-stars').innerHTML = modalStarsHTML;
 
-            // ACTUALIZACIÓN DE INTERFAZ DEPENDIENDO EL MODO
+            // ACTUALIZACIÓN DE INTERFAZ DEPENDIENDO EL MODO SELECCIONADO
             if (currentMode === 'std') {
                 btnStd.classList.add('active');
                 btnMyth.classList.remove('active');
                 
-                // Arte y Stats Estándar
+                // Inyecta datos Estándar
                 document.getElementById('t-bg').style.backgroundImage = `url('${currentHero.fullImg}')`;
                 document.getElementById('t-hp').innerText = currentHero.stats.std.hp;
                 document.getElementById('t-dps').innerText = currentHero.stats.std.dps;
                 document.getElementById('t-tough').innerText = currentHero.stats.std.tough;
                 document.getElementById('t-def').innerText = currentHero.stats.std.def;
                 
-                // Arma Estándar
-                wCard.style.borderColor = "#3c354e"; // Borde normal
+                // Inyecta arma Estándar
+                wCard.style.borderColor = "#3c354e"; 
                 document.getElementById('w-img').src = currentHero.weapon.std.img;
                 document.getElementById('w-name').innerText = currentHero.weapon.std.name;
                 document.getElementById('w-type').innerText = currentHero.weapon.std.type;
@@ -633,7 +682,7 @@
                 btnStd.classList.remove('active');
                 btnMyth.classList.add('active');
                 
-                // Arte y Stats Mito
+                // Inyecta datos Mito/Ascenso
                 document.getElementById('t-bg').style.backgroundImage = `url('${currentHero.fullImgMyth}')`;
                 document.getElementById('t-hp').innerText = currentHero.stats.myth.hp;
                 document.getElementById('t-dps').innerText = currentHero.stats.myth.dps;
@@ -641,8 +690,8 @@
                 document.getElementById('t-def').innerText = currentHero.stats.myth.def;
                 document.getElementById('k-myth-desc').innerText = currentHero.skills.mythDesc;
                 
-                // Arma Mito
-                wCard.style.borderColor = "var(--myth-color)"; // Borde rojizo para destacar el arma épica
+                // Inyecta Arma Mito/Ascenso
+                wCard.style.borderColor = "var(--myth-color)"; // Borde rojo épico
                 document.getElementById('w-img').src = currentHero.weapon.myth.img;
                 document.getElementById('w-name').innerText = currentHero.weapon.myth.name;
                 document.getElementById('w-type').innerText = currentHero.weapon.myth.type;
@@ -655,7 +704,7 @@
             }
         }
 
-        // Eventos base
+        // Lógica de menús del sidebar
         document.getElementById('toggleSidebar').addEventListener('click', () => { document.getElementById('sidebar').classList.toggle('collapsed'); });
         document.querySelectorAll('.nav-title').forEach(title => {
             title.addEventListener('click', () => { title.closest('.nav-group').classList.toggle('collapsed-group'); });
@@ -664,10 +713,10 @@
         // -------------------------------------------------------------------------
         // MEMORIA PARA EL MODO OSCURO (LOCALSTORAGE)
         // -------------------------------------------------------------------------
+        // Nota: Permite guardar el color de fondo elegido al cambiar entre pestañas.
         const themeBtn = document.getElementById('themeToggle');
         const rootElement = document.documentElement;
 
-        // Comprobar la memoria del navegador al cargar la página
         if (localStorage.getItem('tema-casita') === 'dark') {
             rootElement.setAttribute('data-theme', 'dark');
             themeBtn.innerHTML = '<i class="fa-solid fa-sun"></i>';
@@ -675,7 +724,6 @@
             themeBtn.innerHTML = '<i class="fa-solid fa-moon"></i>';
         }
 
-        // Cambiar y guardar en la memoria
         themeBtn.addEventListener('click', () => {
             let isDark = rootElement.hasAttribute('data-theme');
             if (isDark) {
@@ -690,6 +738,7 @@
         });
         // -------------------------------------------------------------------------
 
+        // Inicializar el buscador de héroes
         document.getElementById('searchInput').addEventListener('input', applyFiltersAndSort);
         document.getElementById('sortSelect').addEventListener('change', applyFiltersAndSort);
 
