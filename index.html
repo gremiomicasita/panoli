@@ -10,13 +10,19 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
-        /* Variables CSS para facilitar el Modo Claro / Modo Oscuro */
+        /* 
+         * ==========================================
+         * VARIABLES DE COLOR (TEMA CLARO Y OSCURO)
+         * ==========================================
+         * Si alguna vez quieres cambiar los colores de tu página, 
+         * solo modifica los códigos hexadecimales aquí.
+         */
         :root {
             --sidebar-bg: #292437;
             --sidebar-text: #9691a5;
             --sidebar-text-active: #ffffff;
             --sidebar-bg-active: #3c354e;
-            --sidebar-btn: #fdd843;
+            --sidebar-btn: #fdd843; /* Amarillo de los botones */
             
             --main-bg: #f9f5ed;
             --card-bg: #ffffff;
@@ -28,7 +34,7 @@
             --transition-speed: 0.3s;
         }
 
-        /* Variables de Modo Oscuro */
+        /* Colores cuando el modo oscuro está activado */
         [data-theme="dark"] {
             --main-bg: #181521;
             --card-bg: #221e2d;
@@ -54,7 +60,9 @@
             overflow: hidden;
         }
 
-        /* ----- BARRA LATERAL (SIDEBAR) ----- */
+        /* ==========================================
+         * BARRA LATERAL (SIDEBAR)
+         * ========================================== */
         .sidebar {
             width: 260px;
             background-color: var(--sidebar-bg);
@@ -103,7 +111,6 @@
             color: var(--sidebar-text);
         }
 
-        /* ----- MENÚS DESPLEGABLES (ACORDEÓN) ----- */
         .nav-group {
             margin-bottom: 10px;
             min-width: 260px;
@@ -166,7 +173,9 @@
             border-left: 4px solid var(--sidebar-btn);
         }
 
-        /* ----- CONTENIDO PRINCIPAL ----- */
+        /* ==========================================
+         * CONTENIDO PRINCIPAL
+         * ========================================== */
         .main-content {
             flex: 1;
             display: flex;
@@ -210,9 +219,7 @@
         }
 
         /* Header de Bienvenida */
-        .welcome-header {
-            margin-bottom: 40px;
-        }
+        .welcome-header { margin-bottom: 40px; }
 
         .welcome-tag {
             font-size: 12px;
@@ -226,10 +233,7 @@
             margin-bottom: 10px;
         }
 
-        .welcome-tag i {
-            color: var(--accent-red);
-            font-size: 8px;
-        }
+        .welcome-tag i { color: var(--accent-red); font-size: 8px; }
 
         .welcome-header h1 {
             font-size: 42px;
@@ -237,9 +241,7 @@
             margin-bottom: 12px;
         }
 
-        .welcome-header h1 span {
-            color: var(--accent-red);
-        }
+        .welcome-header h1 span { color: var(--accent-red); }
 
         .welcome-header p {
             color: var(--text-muted);
@@ -247,14 +249,14 @@
             line-height: 1.6;
         }
 
-        /* Grid de tarjetas */
+        /* Grid de tarjetas principales */
         .grid-layout {
             display: grid;
             grid-template-columns: 2fr 1fr;
             gap: 24px;
         }
 
-        /* Tarjeta principal oscura */
+        /* Tarjeta principal oscura (Banner) */
         .hero-card {
             background: linear-gradient(135deg, #1f1a30, #3a2542);
             border-radius: 24px;
@@ -294,7 +296,7 @@
             transition: 0.2s;
         }
 
-        /* Tarjetas base */
+        /* Tarjetas base blancas */
         .card {
             background-color: var(--card-bg);
             border-radius: 24px;
@@ -322,12 +324,7 @@
         }
 
         /* Progreso Asalto al Gremio */
-        .progress-number {
-            font-size: 48px;
-            font-weight: 800;
-            margin-bottom: 10px;
-        }
-
+        .progress-number { font-size: 48px; font-weight: 800; margin-bottom: 10px; }
         .progress-bar {
             height: 8px;
             background-color: var(--main-bg);
@@ -351,7 +348,7 @@
             color: var(--text-muted);
         }
 
-        /* Lista de actividades */
+        /* Lista de actividades (Historias de la posada) */
         .activity-list {
             display: flex;
             flex-direction: column;
@@ -371,9 +368,7 @@
             color: var(--text-dark);
         }
 
-        .activity-item:hover {
-            border-color: var(--text-muted);
-        }
+        .activity-item:hover { border-color: var(--text-muted); }
 
         .activity-icon {
             width: 40px;
@@ -390,15 +385,8 @@
         .icon-green { background-color: #eafdf5; color: #1fb173; }
         .icon-yellow { background-color: #fdf5ea; color: #e59935; }
 
-        .activity-text {
-            flex: 1;
-        }
-
-        .activity-text h4 {
-            font-size: 14px;
-            margin-bottom: 4px;
-        }
-
+        .activity-text { flex: 1; }
+        .activity-text h4 { font-size: 14px; margin-bottom: 4px; }
         .activity-text p {
             font-size: 12px;
             color: var(--text-muted);
@@ -429,32 +417,23 @@
             z-index: 0;
         }
         
-        [data-theme="dark"] .next-activity-card::before {
-            background-color: #1e3332;
-        }
-
-        .next-activity-content {
-            position: relative;
-            z-index: 1;
-        }
+        [data-theme="dark"] .next-activity-card::before { background-color: #1e3332; }
+        .next-activity-content { position: relative; z-index: 1; }
 
         @media (max-width: 900px) {
-            .grid-layout {
-                grid-template-columns: 1fr;
-            }
-            .sidebar {
-                position: absolute;
-                height: 100%;
-                z-index: 100;
-            }
+            .grid-layout { grid-template-columns: 1fr; }
+            .sidebar { position: absolute; height: 100%; z-index: 100; }
         }
     </style>
 </head>
 <body>
 
-    <!-- BARRA LATERAL -->
+    <!-- =========================================================================
+         MENÚ LATERAL UNIFICADO
+         ========================================================================= -->
     <aside class="sidebar" id="sidebar">
         <div class="sidebar-header">
+            <!-- Nota: Aquí cambias el logo de la esquina superior izquierda -->
             <img src="logo.jpg" alt="Logo">
             <div>
                 <h2>Mi Casita</h2>
@@ -465,6 +444,7 @@
         <div class="nav-group">
             <div class="nav-title" title="Clic para desplegar">INICIO <i class="fa-solid fa-chevron-down"></i></div>
             <div class="nav-items-container">
+                <!-- La clase "active" resalta en qué página te encuentras actualmente -->
                 <a href="index.html" class="nav-item active"><i class="fa-solid fa-fire"></i> Fogata de bienvenida</a>
                 <a href="noticias.html" class="nav-item"><i class="fa-regular fa-newspaper"></i> Noticias del gremio</a>
             </div>
@@ -497,7 +477,9 @@
         </div>
     </aside>
 
-    <!-- CONTENIDO PRINCIPAL -->
+    <!-- =========================================================================
+         CONTENIDO PRINCIPAL
+         ========================================================================= -->
     <main class="main-content">
         <div class="topbar">
             <div class="breadcrumbs">
@@ -507,6 +489,7 @@
                 <span>Mi Casita &nbsp; > &nbsp; <b>Fogata de bienvenida</b></span>
             </div>
             
+            <!-- Botón de Modo Oscuro -->
             <button class="theme-btn" id="themeToggle" title="Alternar Modo Oscuro">
                 <i class="fa-solid fa-moon"></i>
             </button>
@@ -517,14 +500,20 @@
             <div class="welcome-header">
                 <div class="welcome-tag"><i class="fa-solid fa-square"></i> Temporada 3</div>
                 <h1>Bienvenida a <span>Mi Casita.</span></h1>
-                <p>Mensaje de bienvenida (pendiente).</p>
+                <p>Una posada pequeña para grandes aventuras. Comparte consejos, coordina tus carreras y celebra cada estrella conseguida.</p>
             </div>
 
             <div class="grid-layout">
                 
                 <!-- Columna Izquierda -->
                 <div style="display: flex; flex-direction: column; gap: 40px;">
-                    <!-- Banner Hero -->
+                    
+                    <!-- =========================================================================
+                         BANNER HERO (Vinculado a Google Sheets)
+                         =========================================================================
+                         Nota: Los textos que dicen "Cargando..." son reemplazados 
+                         automáticamente por el contenido de tu hoja de cálculo.
+                         ========================================================================= -->
                     <div class="hero-card">
                         <div style="font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: #a8a3b5;">La fogata está encendida</div>
                         <h2 id="sheet-banner_titulo">Cargando...</h2>
@@ -537,7 +526,11 @@
                         </div>
                     </div>
 
-                    <!-- MÓDULO: Top 5 Ranking -->
+                    <!-- =========================================================================
+                         MÓDULO: Top 5 Ranking
+                         =========================================================================
+                         Nota: Las 5 tarjetas se generan solas usando tu archivo `datos_ranking.js`.
+                         ========================================================================= -->
                     <div class="card" style="border: 2px solid #fdd843; box-shadow: 0 0 15px rgba(253, 216, 67, 0.15);">
                         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
                             <h3 class="section-title" style="margin:0; color: #d89614;"><i class="fa-solid fa-crown"></i> Top 5 - Asalto Estafermo</h3>
@@ -547,7 +540,9 @@
                         <div id="top5-contenedor" style="display: flex; flex-direction: column; gap: 10px;"></div>
                     </div>
 
-                    <!-- Historias de la posada -->
+                    <!-- =========================================================================
+                         HISTORIAS DE LA POSADA (Vinculadas a Google Sheets)
+                         ========================================================================= -->
                     <div>
                         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
                             <h3 class="section-title" style="margin:0;">Historias de la posada <br><span style="font-size: 18px; text-transform: none; color: var(--text-dark);">Lo que está pasando</span></h3>
@@ -555,7 +550,7 @@
                         </div>
 
                         <div class="activity-list">
-                            <!-- Actividad 1: Noticia Principal (AQUÍ CAMBIÓ EL ID PARA CONECTARLO A LAS NOTICIAS) -->
+                            <!-- Actividad 1: Noticia Principal (Conectada a la hoja de cálculo) -->
                             <a href="noticias.html" class="activity-item">
                                 <div class="activity-icon icon-red"><i class="fa-solid fa-hand-fist"></i></div>
                                 <div class="activity-text">
@@ -565,7 +560,7 @@
                                 <i class="fa-solid fa-arrow-right" style="color: var(--text-muted);"></i>
                             </a>
                             
-                            <!-- Actividad 2: Bienvenida -->
+                            <!-- Actividad 2: Bienvenida (Conectada a la hoja de cálculo) -->
                             <a href="noticias.html" class="activity-item">
                                 <div class="activity-icon icon-green"><i class="fa-solid fa-heart"></i></div>
                                 <div class="activity-text">
@@ -575,7 +570,7 @@
                                 <i class="fa-solid fa-arrow-right" style="color: var(--text-muted);"></i>
                             </a>
 
-                            <!-- Actividad 3: Guía -->
+                            <!-- Actividad 3: Guía (Conectada a la hoja de cálculo) -->
                             <a href="guia.html" class="activity-item">
                                 <div class="activity-icon icon-yellow"><i class="fa-solid fa-book-open"></i></div>
                                 <div class="activity-text">
@@ -591,7 +586,9 @@
                 <!-- Columna Derecha -->
                 <div style="display: flex; flex-direction: column; gap: 40px;">
                     
-                    <!-- Progreso: Asalto al Gremio con días (X/7) -->
+                    <!-- =========================================================================
+                         PROGRESO DE ASALTO (Vinculado a Google Sheets con la clave "dias_asalto")
+                         ========================================================================= -->
                     <div class="card">
                         <h3 class="section-title">Asalto al Gremio</h3>
                         
@@ -606,7 +603,7 @@
                             <span id="estado-texto">Inactivo</span>
                         </div>
                         
-                        <!-- Mensaje automático si los días son 0/7 -->
+                        <!-- Mensaje automático si en la hoja de cálculo pones un 0 -->
                         <div id="mensaje-sin-asalto" style="display: none; font-size: 13px; color: var(--accent-red); margin-top: 10px; font-weight: 600;">
                             <i class="fa-solid fa-triangle-exclamation"></i> Actualmente no hay Asalto al Gremio activo.
                         </div>
@@ -615,7 +612,9 @@
                         <a href="ranking.html" style="font-size: 12px; color: var(--accent-red); text-decoration: none; font-weight: 600;">Ver ranking de la casa &rarr;</a>
                     </div>
 
-                    <!-- Próxima actividad -->
+                    <!-- =========================================================================
+                         PRÓXIMA ACTIVIDAD (Vinculada a Google Sheets)
+                         ========================================================================= -->
                     <div>
                         <h3 class="section-title">Nos vemos pronto <br><span style="font-size: 18px; text-transform: none; color: var(--text-dark);">Próxima actividad</span></h3>
                         <div class="next-activity-card">
@@ -632,22 +631,30 @@
         </div>
     </main>
 
-    <!-- CHAT FLOTANTE DE DISCORD -->
+    <!-- =========================================================================
+         WIDGETBOT: CHAT FLOTANTE DE DISCORD
+         ========================================================================= -->
     <script src="https://cdn.jsdelivr.net/npm/@widgetbot/crate@3" async defer>
         new Crate({
-            server: '1518747166494163045',
-            channel: '1518747167261593632',
+            server: '1518747166494163045', // ID del Servidor (Mi Casita)
+            channel: '1518747167261593632', // ID del Canal (General u otro)
             color: '#292437',
             notifications: true
         })
     </script>
 
-    <!-- SCRIPTS -->
+    <!-- IMPORTACIÓN DE DATOS LOCALES -->
     <script src="datos_ranking.js"></script>
+
+    <!-- =========================================================================
+         SCRIPTS Y LÓGICA DE LA PÁGINA
+         ========================================================================= -->
     <script>
         // -------------------------------------------------------------------------
-        // CONEXIÓN CON GOOGLE SHEETS
+        // CONEXIÓN CON GOOGLE SHEETS (API DE SHEETDB)
         // -------------------------------------------------------------------------
+        // Nota: Esta es la URL generada por SheetDB. Si alguna vez cambias 
+        // de hoja de cálculo de Google, debes generar una nueva URL y pegarla aquí.
         const apiURL = 'https://sheetdb.io/api/v1/rfy0fba41r17u';
 
         fetch(apiURL)
@@ -656,11 +663,11 @@
                 data.forEach(fila => {
                     const elemento = document.getElementById('sheet-' + fila.clave);
                     if (elemento) {
-                        // Usamos innerHTML para permitir etiquetas
+                        // Usamos innerHTML para permitir etiquetas HTML en tu Google Sheet (ej. enlaces)
                         elemento.innerHTML = fila.texto;
                     }
 
-                    // Lógica para Días de Asalto
+                    // LÓGICA ESPECIAL PARA LOS DÍAS DE ASALTO (0 al 7)
                     if (fila.clave === 'dias_asalto') {
                         const diasActuales = parseInt(fila.texto) || 0; 
                         const diasTotales = 7;
@@ -671,12 +678,14 @@
                         document.getElementById('dias-texto').innerText = `Días ${diasActuales}/${diasTotales}`;
 
                         if (diasActuales === 0) {
+                            // Si pones 0, se oculta la barra y sale la alerta roja
                             document.getElementById('porcentaje-texto').style.display = 'none';
                             document.querySelector('.progress-bar').style.display = 'none';
                             document.getElementById('dias-texto').style.display = 'none';
                             document.getElementById('estado-texto').style.display = 'none';
                             document.getElementById('mensaje-sin-asalto').style.display = 'block';
                         } else {
+                            // Si pones del 1 al 7, muestra la barra normalmente
                             document.getElementById('porcentaje-texto').style.display = 'block';
                             document.querySelector('.progress-bar').style.display = 'block';
                             document.getElementById('dias-texto').style.display = 'block';
@@ -690,9 +699,12 @@
             .catch(error => console.error('Error al conectar con la hoja de cálculo:', error));
         // -------------------------------------------------------------------------
 
-        // Cargar Top 5
+        // -------------------------------------------------------------------------
+        // INYECTAR EL TOP 5 DESDE DATOS_RANKING.JS
+        // -------------------------------------------------------------------------
         const contenedorTop5 = document.getElementById('top5-contenedor');
         if(typeof rankingGremio !== 'undefined' && contenedorTop5) {
+            // Toma a los 5 primeros del arreglo
             const top5 = rankingGremio.slice(0, 5);
             top5.forEach(jugador => {
                 contenedorTop5.innerHTML += `
@@ -710,9 +722,7 @@
             });
         }
 
-        // -------------------------------------------------------------------------
-        // MEMORIA PARA EL MODO OSCURO (LOCALSTORAGE)
-        // -------------------------------------------------------------------------
+        // Lógica de menús del sidebar
         const sidebar = document.getElementById('sidebar');
         const toggleBtn = document.getElementById('toggleSidebar');
         toggleBtn.addEventListener('click', () => { sidebar.classList.toggle('collapsed'); });
@@ -725,10 +735,14 @@
             });
         });
 
+        // -------------------------------------------------------------------------
+        // MEMORIA PARA EL MODO OSCURO (LOCALSTORAGE)
+        // -------------------------------------------------------------------------
+        // Nota: Esto hace que el navegador recuerde si dejaste la página en oscuro o claro
         const themeBtn = document.getElementById('themeToggle');
         const rootElement = document.documentElement;
 
-        // Comprobar al iniciar
+        // Comprueba la memoria del navegador al cargar la página
         if (localStorage.getItem('tema-casita') === 'dark') {
             rootElement.setAttribute('data-theme', 'dark');
             themeBtn.innerHTML = '<i class="fa-solid fa-sun"></i>';
@@ -736,7 +750,7 @@
             themeBtn.innerHTML = '<i class="fa-solid fa-moon"></i>';
         }
 
-        // Cambiar y guardar
+        // Cambia y guarda en la memoria el nuevo color elegido
         themeBtn.addEventListener('click', () => {
             let isDark = rootElement.hasAttribute('data-theme');
             if (isDark) {
