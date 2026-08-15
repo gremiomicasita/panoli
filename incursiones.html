@@ -4,18 +4,25 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Incursiones - Mi Casita</title>
+    <!-- Importando fuentes e iconos -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
+        /* 
+         * ==========================================
+         * VARIABLES DE COLOR
+         * ==========================================
+         */
         :root {
             --sidebar-bg: #292437; --sidebar-text: #9691a5; --sidebar-text-active: #ffffff;
             --sidebar-bg-active: #3c354e; --sidebar-btn: #fdd843; --main-bg: #f9f5ed;
             --card-bg: #ffffff; --text-dark: #201b2a; --text-muted: #7d7889;
             --accent-red: #d84d65; --border-color: #e8e4dc; --transition-speed: 0.3s;
-            --btn-blue: #2a3b68; --btn-blue-hover: #3b528f;
+            --btn-blue: #2a3b68; --btn-blue-hover: #3b528f; /* Color del botón de búsqueda */
         }
 
+        /* Colores para el Modo Oscuro */
         [data-theme="dark"] {
             --main-bg: #181521; --card-bg: #221e2d; --text-dark: #f0eef5;
             --text-muted: #a39eb5; --border-color: #353045; --sidebar-bg: #14111c;
@@ -24,7 +31,9 @@
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
         body { display: flex; height: 100vh; background-color: var(--main-bg); color: var(--text-dark); transition: background-color var(--transition-speed), color var(--transition-speed); overflow: hidden; }
 
-        /* BARRA LATERAL UNIFICADA */
+        /* ==========================================
+         * BARRA LATERAL (SIDEBAR) UNIFICADA
+         * ========================================== */
         .sidebar { width: 260px; background-color: var(--sidebar-bg); color: var(--sidebar-text); display: flex; flex-direction: column; transition: width var(--transition-speed); overflow-y: auto; overflow-x: hidden; flex-shrink: 0; }
         .sidebar.collapsed { width: 0; padding: 0; }
         .sidebar-header { padding: 24px; display: flex; align-items: center; gap: 12px; margin-bottom: 10px; min-width: 260px; }
@@ -42,7 +51,9 @@
         .nav-item:hover { color: var(--sidebar-text-active); }
         .nav-item.active { background-color: var(--sidebar-bg-active); color: var(--sidebar-text-active); border-left: 4px solid var(--sidebar-btn); }
 
-        /* Main Content */
+        /* ==========================================
+         * CONTENIDO PRINCIPAL
+         * ========================================== */
         .main-content { flex: 1; display: flex; flex-direction: column; overflow-y: auto; padding-bottom: 80px; }
         .topbar { display: flex; justify-content: space-between; align-items: center; padding: 20px 40px; }
         .breadcrumbs { display: flex; align-items: center; gap: 15px; font-size: 14px; color: var(--text-muted); }
@@ -53,10 +64,12 @@
         .welcome-header h1 { font-size: 42px; font-weight: 800; margin-bottom: 12px; }
         .welcome-header h1 span { color: #7b42f6; } 
         
-        /* Layout Modificado: Una sola columna */
+        /* Layout Modificado: Una sola columna para la lista de equipos */
         .grid-layout { display: flex; flex-direction: column; gap: 24px; }
 
-        /* Tarjeta de Búsqueda y Botón */
+        /* ==========================================
+         * ESTILOS DEL BUSCADOR DE EQUIPOS
+         * ========================================== */
         .search-card { background: var(--card-bg); border-radius: 20px; padding: 25px; margin-bottom: 20px; border: 1px solid var(--border-color); display: flex; flex-direction: column; gap: 20px; }
         .search-row { display: flex; gap: 20px; flex-wrap: wrap; }
         .search-group { flex: 1; display: flex; flex-direction: column; gap: 8px; min-width: 200px; }
@@ -66,8 +79,10 @@
         .btn-comenzar { background-color: var(--btn-blue); color: #ffffff; border: none; padding: 15px; border-radius: 12px; font-size: 14px; font-weight: 800; letter-spacing: 1px; text-transform: uppercase; cursor: pointer; transition: 0.2s; width: 100%; }
         .btn-comenzar:hover { background-color: var(--btn-blue-hover); }
 
-        /* Lista de Equipos (Inicialmente Oculta) */
-        #resultados-equipos { display: none; }
+        /* ==========================================
+         * LISTA DE EQUIPOS (RESULTADOS)
+         * ========================================== */
+        #resultados-equipos { display: none; } /* Oculto al cargar la página */
         
         .teams-title { font-size: 14px; font-weight: 800; text-transform: uppercase; color: var(--text-muted); margin-bottom: 15px; letter-spacing: 1px; }
         .team-card { background: var(--card-bg); border-radius: 16px; border: 1px solid var(--border-color); padding: 20px; margin-bottom: 15px; transition: 0.2s; }
@@ -78,17 +93,24 @@
         .team-damage { font-size: 28px; font-weight: 800; color: var(--text-dark); display: flex; align-items: baseline; gap: 5px; }
         .team-damage span { font-size: 18px; color: var(--accent-red); }
         .team-heroes { display: flex; gap: 10px; background: var(--main-bg); padding: 10px; border-radius: 12px; border: 1px solid var(--border-color); }
+        
+        /* Íconos de los héroes en el equipo */
         .hero-icon { width: 50px; height: 50px; border-radius: 8px; border: 2px solid var(--border-color); background: #3c354e; object-fit: cover; }
+        
+        /* Botones de acción (Video y Cadenas) */
         .team-actions { display: flex; gap: 20px; }
         .action-btn { background: none; border: none; color: var(--text-muted); cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 6px; font-size: 11px; font-weight: 700; transition: 0.2s; }
         .action-btn i { font-size: 18px; color: var(--text-dark); }
         .action-btn:hover { color: var(--accent-red); }
         .action-btn:hover i { color: var(--accent-red); }
 
+        /* Panel desplegable de cadenas de combo */
         .team-info-panel { background: var(--main-bg); border-radius: 8px; padding: 15px; margin-top: 20px; display: none; font-size: 13px; font-weight: 600; color: var(--text-dark); border-left: 4px solid var(--sidebar-btn); line-height: 1.6; }
         .team-info-panel.active { display: block; }
 
-        /* VENTANA FLOTANTE DE VIDEO */
+        /* ==========================================
+         * VENTANA FLOTANTE DEL REPRODUCTOR DE VIDEO
+         * ========================================== */
         #floating-video-container { position: fixed; bottom: 20px; right: 20px; width: 400px; height: 250px; background: #000; border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); z-index: 9999; display: none; flex-direction: column; overflow: hidden; resize: both; min-width: 250px; min-height: 150px; max-width: 800px; max-height: 600px; border: 2px solid var(--accent-red); }
         .floating-header { background: #14111c; color: white; padding: 10px 15px; display: flex; justify-content: space-between; align-items: center; font-size: 12px; font-weight: 600; cursor: move; user-select: none; }
         .floating-header button { background: none; border: none; color: #fff; cursor: pointer; font-size: 16px; }
@@ -100,9 +122,12 @@
 </head>
 <body>
 
-    <!-- BARRA LATERAL UNIFICADA -->
+    <!-- =========================================================================
+         MENÚ LATERAL UNIFICADO
+         ========================================================================= -->
     <aside class="sidebar" id="sidebar">
         <div class="sidebar-header">
+            <!-- Nota: Cambia "logo.jpg" por el nombre de tu imagen de logo si es necesario -->
             <img src="logo.jpg" alt="Logo" style="width: 40px; height: 40px; border-radius: 10px; object-fit: cover; flex-shrink: 0;">
             <div>
                 <h2>Mi Casita</h2>
@@ -132,6 +157,7 @@
             <div class="nav-items-container">
                 <a href="heroes.html" class="nav-item"><i class="fa-solid fa-khanda"></i> Héroes</a>
                 <a href="equipos.html" class="nav-item"><i class="fa-solid fa-shield-halved"></i> Equipos</a>
+                <!-- Resaltado de la página activa -->
                 <a href="incursiones.html" class="nav-item active"><i class="fa-solid fa-ghost"></i> Incursiones</a>
                 <a href="recursos.html" class="nav-item"><i class="fa-regular fa-gem"></i> Recursos</a>
             </div>
@@ -145,13 +171,16 @@
         </div>
     </aside>
 
-    <!-- CONTENIDO PRINCIPAL -->
+    <!-- =========================================================================
+         CONTENIDO PRINCIPAL
+         ========================================================================= -->
     <main class="main-content">
         <div class="topbar">
             <div class="breadcrumbs">
                 <button class="toggle-btn" id="toggleSidebar"><i class="fa-solid fa-bars"></i></button>
                 <span>Mi Casita &nbsp; > &nbsp; Guías &nbsp; > &nbsp; <b>Incursiones de Gremio</b></span>
             </div>
+            <!-- Botón de Modo Oscuro -->
             <button class="theme-btn" id="themeToggle"><i class="fa-solid fa-moon"></i></button>
         </div>
 
@@ -164,14 +193,18 @@
 
             <div class="grid-layout">
                 
-                <!-- Herramienta de Equipos a Ancho Completo -->
                 <div>
                     
-                    <!-- ENFOQUE PERSONALIZADO -->
+                    <!-- =========================================================================
+                         BÚSQUEDA DE JEFES Y ELEMENTOS
+                         ========================================================================= -->
                     <div class="search-card">
                         <div class="search-row">
+                            
                             <div class="search-group">
                                 <label>Seleccionar Objetivo</label>
+                                <!-- Nota: Para añadir un jefe nuevo, agrégalo aquí abajo siguiendo 
+                                     el formato: <option value="nombre_interno">Nombre Visible</option> -->
                                 <select class="search-select" id="select-jefe">
                                     <option value="gast" selected>Gast</option>
                                     <option value="segador">Segador</option>
@@ -199,9 +232,11 @@
                                     <option value="aracne">Aracne</option>
                                 </select>
                             </div>
+                            
                             <div class="search-group">
                                 <label>Seleccionar Elemento</label>
-                                <!-- Se actualiza solo vía JavaScript -->
+                                <!-- Nota: Las opciones de elemento se llenan automáticamente
+                                     desde el código JavaScript de abajo dependiendo del Jefe que elijas. -->
                                 <select class="search-select" id="select-elemento">
                                     <!-- Las opciones se inyectan dinámicamente -->
                                 </select>
@@ -210,7 +245,12 @@
                         <button class="btn-comenzar" id="btn-comenzar">Comience a concentrarse</button>
                     </div>
 
-                    <!-- CONTENEDOR DE RESULTADOS (Oculto al inicio) -->
+                    <!-- =========================================================================
+                         RESULTADOS: LISTA DE EQUIPOS 
+                         =========================================================================
+                         Nota: Esta sección se hace visible cuando el usuario presiona el botón "Comenzar".
+                         Aquí editas los héroes de cada equipo y el daño que hacen.
+                         ========================================================================= -->
                     <div id="resultados-equipos">
                         <div class="teams-title" id="titulo-resultados">Equipos encontrados</div>
 
@@ -222,23 +262,30 @@
                                     <div class="team-damage">364,8 <span>M</span></div>
                                 </div>
                                 <div class="team-heroes">
+                                    <!-- Íconos de los héroes (cambia las rutas de las imágenes src="") -->
                                     <img src="img/heroes/dabin.png" alt="Dabin" class="hero-icon" title="Dabin" onerror="this.src='https://via.placeholder.com/50/3c354e/ffffff?text=Dabin'">
                                     <img src="img/heroes/ameris.png" alt="Ameris" class="hero-icon" title="Ameris" onerror="this.src='https://via.placeholder.com/50/3c354e/ffffff?text=Ameris'">
                                     <img src="img/heroes/eunha.png" alt="Eunha" class="hero-icon" title="Eunha" onerror="this.src='https://via.placeholder.com/50/3c354e/ffffff?text=Eunha'">
                                     <img src="img/heroes/kamael.png" alt="Kamael" class="hero-icon" title="Kamael" onerror="this.src='https://via.placeholder.com/50/3c354e/ffffff?text=Kamael'">
                                 </div>
                                 <div class="team-actions">
+                                    <!-- Botón de Video -->
+                                    <!-- Nota: Cambia 'dQw4w9WgXcQ' por el ID real del video de YouTube -->
                                     <button class="action-btn" onclick="abrirVideoFlotante('dQw4w9WgXcQ', 'Video de Rotación')">
                                         <i class="fa-solid fa-video"></i> Video
                                     </button>
+                                    <!-- Botón de Cadenas -->
+                                    <!-- Nota: El 'info-1' debe coincidir con el id del panel que se abre abajo -->
                                     <button class="action-btn" onclick="toggleInfo('info-1')">
                                         <i class="fa-solid fa-list"></i> Cadenas
                                     </button>
                                 </div>
                             </div>
                             
+                            <!-- Panel desplegable de cadenas del Equipo 1 -->
                             <div class="team-info-panel" id="info-1">
                                 <span style="color: var(--text-muted); font-size: 11px; text-transform: uppercase; letter-spacing: 1px;">Secuencia de Cadenas</span><br>
+                                <!-- Aquí escribes los tiempos de las cadenas -->
                                 Chain 1 - Dabin 2.1s > Ameris 1.3s > Eunha 1.0s > Kamael 1.2s<br>
                                 Chain 2 - Dabin 1.8s > Ameris 1.3s > Eunha 1.5s > Kamael 1.2s
                             </div>
@@ -280,7 +327,9 @@
         </div>
     </main>
 
-    <!-- CHAT FLOTANTE DE DISCORD (NUEVO) -->
+    <!-- =========================================================================
+         WIDGETBOT: CHAT FLOTANTE DE DISCORD
+         ========================================================================= -->
     <script src="https://cdn.jsdelivr.net/npm/@widgetbot/crate@3" async defer>
         new Crate({
             server: '1518747166494163045', 
@@ -290,7 +339,9 @@
         })
     </script>
 
-    <!-- VENTANA FLOTANTE DE VIDEO INTERACTIVA -->
+    <!-- =========================================================================
+         VENTANA FLOTANTE DE VIDEO INTERACTIVA (Se arrastra por la pantalla)
+         ========================================================================= -->
     <div id="floating-video-container">
         <div class="floating-header" id="floating-drag-handle">
             <span id="floating-title">Reproductor de Rotación</span>
@@ -299,9 +350,12 @@
         <div class="floating-body" id="floating-video-slot"></div>
     </div>
 
-    <!-- SCRIPTS -->
+    <!-- =========================================================================
+         SCRIPTS Y LÓGICA DE LA PÁGINA
+         ========================================================================= -->
     <script>
         // --- 1. LÓGICA DE MENÚS DESPLEGABLES DEPENDIENTES ---
+        // Aquí defines qué elementos se muestran en el segundo menú
         const nombresElementos = {
             "luz": "Luz",
             "agua": "Agua",
@@ -311,13 +365,15 @@
             "oscuro": "Oscuro"
         };
 
-        // Aquí configuras qué elementos le salen a qué jefe
-        // Por defecto, si no especificas un jefe aquí, le saldrán todos los elementos.
+        // NOTA IMPORTANTE: Aquí configuras qué elementos le salen a qué jefe.
+        // Escribe el ID del jefe ("gast", "segador", etc.) y entre corchetes los elementos que le quieres asignar.
+        // Si no especificas un jefe aquí, el sistema le pondrá todos los elementos por defecto.
         const elementosPorJefe = {
-            "gast": ["luz", "agua", "tierra"], // Como en tu video
-            "segador": ["fuego", "basico", "oscuro"], // Ejemplo
-            "carmen": ["tierra", "agua"], // Ejemplo
-            // Puedes agregar más jefes aquí siguiendo el mismo formato
+            "gast": ["luz", "agua", "tierra"], // Ejemplo: A Gast solo se le ataca con Luz, Agua y Tierra
+            "segador": ["fuego", "basico", "oscuro"], 
+            "carmen": ["tierra", "agua"], 
+            // Añade más aquí:
+            // "director": ["luz", "fuego"],
         };
 
         const selectJefe = document.getElementById("select-jefe");
@@ -326,9 +382,10 @@
         const contenedorResultados = document.getElementById("resultados-equipos");
         const tituloResultados = document.getElementById("titulo-resultados");
 
+        // Función que actualiza el segundo menú de "Elementos" cuando cambias de Jefe
         function actualizarElementos() {
             const jefe = selectJefe.value;
-            // Si el jefe está en el diccionario, carga sus elementos, si no, carga todos.
+            // Busca si el jefe está en la lista de arriba, si no, usa todos los elementos
             const elementos = elementosPorJefe[jefe] || Object.keys(nombresElementos);
 
             selectElemento.innerHTML = ""; // Limpiar lista
@@ -340,34 +397,38 @@
             });
         }
 
-        // Actualizar elementos al cambiar de jefe
+        // Cada vez que elijas un jefe nuevo, se ejecuta la actualización
         selectJefe.addEventListener("change", actualizarElementos);
 
-        // Mostrar resultados al darle click a Comenzar
+        // Al darle clic a "Comenzar", mostramos la lista de equipos
         btnComenzar.addEventListener("click", () => {
             const nombreJefe = selectJefe.options[selectJefe.selectedIndex].text;
             const nombreElemento = selectElemento.options[selectElemento.selectedIndex].text;
             
-            // Actualizar título y mostrar div
+            // Actualiza el texto para decir "Equipos encontrados para [Nombre] ([Elemento])"
             tituloResultados.innerText = `Equipos encontrados para ${nombreJefe} (${nombreElemento})`;
-            contenedorResultados.style.display = "block";
+            contenedorResultados.style.display = "block"; // Hace visible el contenedor
         });
 
-        // Ejecutar una vez al cargar la página
+        // Ejecutar una vez al cargar la página para que se llenen los datos base
         actualizarElementos();
 
 
-        // --- 2. LÓGICA DEL RESTO DE LA PÁGINA (Video, Cadenas) ---
+        // --- 2. LÓGICA DE INTERACCIÓN DE TARJETAS (Video y Cadenas) ---
+        
+        // Función para abrir y cerrar el panel de texto de las Cadenas
         function toggleInfo(id) {
             const panel = document.getElementById(id);
             panel.classList.toggle('active');
         }
 
+        // Función para reproducir video de YouTube en el mini-reproductor
         function abrirVideoFlotante(youtubeId, titulo) {
             const container = document.getElementById('floating-video-container');
             const slot = document.getElementById('floating-video-slot');
             const titleSpan = document.getElementById('floating-title');
             titleSpan.innerText = titulo;
+            // Inyecta el video oficial de YouTube, usando la variable youtubeId (El código raro del link de YT)
             slot.innerHTML = `<iframe src="https://www.youtube.com/embed/${youtubeId}?autoplay=1" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
             container.style.display = 'flex';
         }
@@ -375,10 +436,11 @@
         function cerrarVideoFlotante() {
             const container = document.getElementById('floating-video-container');
             const slot = document.getElementById('floating-video-slot');
-            slot.innerHTML = '';
+            slot.innerHTML = ''; // Borra el video para que deje de sonar
             container.style.display = 'none';
         }
 
+        // --- SISTEMA PARA ARRASTRAR EL VIDEO POR LA PANTALLA ---
         const floatingContainer = document.getElementById('floating-video-container');
         const dragHandle = document.getElementById('floating-drag-handle');
         let isDragging = false;
@@ -389,6 +451,7 @@
             startX = e.clientX;
             startY = e.clientY;
             const rect = floatingContainer.getBoundingClientRect();
+            // Desactiva el anclaje inferior para permitir el movimiento libre
             floatingContainer.style.bottom = 'auto';
             floatingContainer.style.right = 'auto';
             floatingContainer.style.top = rect.top + 'px';
@@ -413,6 +476,7 @@
             document.removeEventListener('mouseup', onMouseUp);
         }
 
+        // Menú Lateral
         const sidebar = document.getElementById('sidebar');
         const toggleBtn = document.getElementById('toggleSidebar');
         toggleBtn.addEventListener('click', () => { sidebar.classList.toggle('collapsed'); });
@@ -428,10 +492,11 @@
         // -------------------------------------------------------------------------
         // MEMORIA PARA EL MODO OSCURO (LOCALSTORAGE)
         // -------------------------------------------------------------------------
+        // Nota: Permite guardar el color de fondo elegido al cambiar entre pestañas.
         const themeBtn = document.getElementById('themeToggle');
         const rootElement = document.documentElement;
 
-        // Comprobar la memoria del navegador al cargar la página
+        // Comprueba la memoria del navegador al cargar la página
         if (localStorage.getItem('tema-casita') === 'dark') {
             rootElement.setAttribute('data-theme', 'dark');
             themeBtn.innerHTML = '<i class="fa-solid fa-sun"></i>';
@@ -439,7 +504,7 @@
             themeBtn.innerHTML = '<i class="fa-solid fa-moon"></i>';
         }
 
-        // Cambiar y guardar en la memoria
+        // Cambia y guarda en la memoria el nuevo color elegido
         themeBtn.addEventListener('click', () => {
             let isDark = rootElement.hasAttribute('data-theme');
             if (isDark) {
