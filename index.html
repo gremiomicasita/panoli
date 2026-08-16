@@ -529,15 +529,17 @@
                     <!-- =========================================================================
                          MÓDULO: Top 5 Ranking
                          =========================================================================
-                         Nota: Las 5 tarjetas se generan solas usando tu archivo `datos_ranking.js`.
+                         Nota: Las 5 tarjetas se generan solas usando Google Sheets
                          ========================================================================= -->
                     <div class="card" style="border: 2px solid #fdd843; box-shadow: 0 0 15px rgba(253, 216, 67, 0.15);">
                         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-                            <h3 class="section-title" style="margin:0; color: #d89614;"><i class="fa-solid fa-crown"></i> Top 5 - Asalto Estafermo</h3>
+                            <h3 class="section-title" style="margin:0; color: #d89614;"><i class="fa-solid fa-crown"></i> Top 5 - Asalto de Gremio</h3>
                             <a href="ranking.html" style="font-size: 12px; color: var(--accent-red); text-decoration: none; font-weight: 600;">Ver los 30 &rarr;</a>
                         </div>
                         
-                        <div id="top5-contenedor" style="display: flex; flex-direction: column; gap: 10px;"></div>
+                        <div id="top5-contenedor" style="display: flex; flex-direction: column; gap: 10px;">
+                            <p style="font-size: 13px; color: var(--text-muted); text-align: center;">Cargando Top 5...</p>
+                        </div>
                     </div>
 
                     <!-- =========================================================================
@@ -643,18 +645,13 @@
         })
     </script>
 
-    <!-- IMPORTACIÓN DE DATOS LOCALES -->
-    <script src="datos_ranking.js"></script>
-
     <!-- =========================================================================
          SCRIPTS Y LÓGICA DE LA PÁGINA
          ========================================================================= -->
     <script>
         // -------------------------------------------------------------------------
-        // CONEXIÓN CON GOOGLE SHEETS (API DE SHEETDB)
+        // CONEXIÓN CON GOOGLE SHEETS PARA EL CONTENIDO (API DE SHEETDB)
         // -------------------------------------------------------------------------
-        // Nota: Esta es la URL generada por SheetDB. Si alguna vez cambias 
-        // de hoja de cálculo de Google, debes generar una nueva URL y pegarla aquí.
         const apiURL = 'https://sheetdb.io/api/v1/rfy0fba41r17u';
 
         fetch(apiURL)
@@ -697,29 +694,40 @@
                 });
             })
             .catch(error => console.error('Error al conectar con la hoja de cálculo:', error));
+        
         // -------------------------------------------------------------------------
-
+        // INYECTAR EL TOP 5 DESDE GOOGLE SHEETS (PESTAÑA RANKING)
         // -------------------------------------------------------------------------
-        // INYECTAR EL TOP 5 DESDE DATOS_RANKING.JS
-        // -------------------------------------------------------------------------
+        const apiRankingURL = 'https://sheetdb.io/api/v1/rfy0fba41r17u?sheet=Ranking';
         const contenedorTop5 = document.getElementById('top5-contenedor');
-        if(typeof rankingGremio !== 'undefined' && contenedorTop5) {
-            // Toma a los 5 primeros del arreglo
-            const top5 = rankingGremio.slice(0, 5);
-            top5.forEach(jugador => {
-                contenedorTop5.innerHTML += `
-                    <div style="display: flex; align-items: center; justify-content: space-between; padding: 10px 15px; background: var(--main-bg); border-radius: 12px; border-left: 4px solid #fdd843;">
-                        <div style="display: flex; align-items: center; gap: 15px;">
-                            <span style="font-size: 18px; font-weight: 800; color: #d89614;">#${jugador.posicion}</span>
-                            <img src="${jugador.foto}" alt="${jugador.nombre}" class="top5-avatar">
-                            <span style="font-weight: 700; font-size: 14px;">${jugador.nombre}</span>
-                        </div>
-                        <div style="font-size: 12px; font-weight: 700; color: var(--text-muted);">
-                            <i class="fa-solid fa-burst" style="color: var(--accent-red);"></i> ${jugador.daño.oscuridad}
-                        </div>
-                    </div>
-                `;
-            });
+
+        if (contenedorTop5) {
+            fetch(apiRankingURL)
+                .then(response => response.json())
+                .then(data => {
+                    contenedorTop5.innerHTML = ''; // Limpiar mensaje de carga
+                    // Toma a los 5 primeros
+                    const top5 = data.slice(0, 5);
+                    top5.forEach(jugador => {
+                        const daño = jugador.asalto ? jugador.asalto : '0';
+                        contenedorTop5.innerHTML += `
+                            <div style="display: flex; align-items: center; justify-content: space-between; padding: 10px 15px; background: var(--main-bg); border-radius: 12px; border-left: 4px solid #fdd843;">
+                                <div style="display: flex; align-items: center; gap: 15px;">
+                                    <span style="font-size: 18px; font-weight: 800; color: #d89614;">#${jugador.posicion}</span>
+                                    <img src="${jugador.foto}" alt="${jugador.nombre}" class="top5-avatar" onerror="this.src='https://via.placeholder.com/36/3c354e/ffffff?text=?'">
+                                    <span style="font-weight: 700; font-size: 14px;">${jugador.nombre}</span>
+                                </div>
+                                <div style="font-size: 14px; font-weight: 800; color: var(--accent-red);">
+                                    <i class="fa-solid fa-fire-flame-curved"></i> ${daño}
+                                </div>
+                            </div>
+                        `;
+                    });
+                })
+                .catch(error => {
+                    console.error('Error al cargar el ranking:', error);
+                    contenedorTop5.innerHTML = '<p style="color: var(--accent-red); font-size: 12px; padding: 10px;">Error al cargar el Top 5 desde Google Sheets.</p>';
+                });
         }
 
         // Lógica de menús del sidebar
