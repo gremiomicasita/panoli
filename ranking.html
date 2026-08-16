@@ -176,9 +176,8 @@
                 <!-- =========================================================================
                      TABLA DE RANKING
                      =========================================================================
-                     NOTA PARA EDITORES: ¡No escribas a los jugadores aquí! 
-                     Esta tabla está vacía a propósito. El código JavaScript que está más 
-                     abajo se encarga de rellenarla leyendo el archivo "datos_ranking.js". 
+                     NOTA PARA EDITORES: Esta tabla está conectada a la pestaña "Ranking" de tu
+                     Google Sheets. No es necesario escribir los nombres aquí.
                      ========================================================================= -->
                 <div class="card ranking-container">
                     <table id="tabla-ranking">
@@ -203,7 +202,8 @@
                             </tr>
                         </thead>
                         <tbody id="cuerpo-tabla">
-                            <!-- Javascript inyectará las filas (<tr>) aquí automáticamente -->
+                            <!-- Javascript inyectará las filas de Google Sheets aquí -->
+                            <tr><td colspan="9" style="text-align:center;">Cargando datos desde Google Sheets...</td></tr>
                         </tbody>
                     </table>
                 </div>
@@ -227,56 +227,55 @@
     <!-- =========================================================================
          SCRIPTS Y LÓGICA DE LA PÁGINA
          ========================================================================= -->
-    
-    <!-- IMPORTANTE: Aquí mandamos a llamar a nuestro archivo con los 30 jugadores -->
-    <script src="datos_ranking.js"></script>
-
     <script>
         // -------------------------------------------------------------------------
-        // LÓGICA DE INYECCIÓN DE LA TABLA DE RANKING
+        // LÓGICA DE INYECCIÓN DE LA TABLA DE RANKING (DESDE GOOGLE SHEETS)
         // -------------------------------------------------------------------------
         const cuerpoTabla = document.getElementById('cuerpo-tabla');
         
-        // Comprueba que el archivo datos_ranking.js exista y se haya cargado bien
-        if(typeof rankingGremio !== 'undefined' && cuerpoTabla) {
-            
-            // Recorre la lista de los 30 jugadores uno por uno
-            rankingGremio.forEach(jugador => {
+        // ¡IMPORTANTE!: Agregamos "?sheet=Ranking" al final de tu API real para que SheetDB 
+        // sepa que debe leer la pestaña llamada "Ranking" y no la primera hoja.
+        const apiRankingURL = 'https://sheetdb.io/api/v1/rfy0fba41r17u?sheet=Ranking';
+
+        fetch(apiRankingURL)
+            .then(response => response.json())
+            .then(data => {
+                // Borramos el mensaje de "Cargando datos..."
+                cuerpoTabla.innerHTML = '';
                 
-                // Si el jugador está entre el 1 y el 5, le pone la clase "top-5" para que brille dorado
-                const claseDorada = jugador.posicion <= 5 ? 'top-5' : '';
-                
-                // Si alguien olvidó poner el dato 'dañoAsalto' en el JS, se pone '0 M' por defecto para evitar errores visuales
-                const dañoAsalto = jugador.dañoAsalto ? jugador.dañoAsalto : '0 M';
-                
-                // Inyecta el código HTML de la fila en la tabla con los datos del jugador
-                cuerpoTabla.innerHTML += `
-                    <tr class="${claseDorada}">
-                        <td><strong class="pos-numero">${jugador.posicion}</strong></td>
-                        <td>
-                            <div class="perfil-celda">
-                                <img src="${jugador.foto}" alt="${jugador.nombre}" class="foto-perfil">
-                                <span>${jugador.nombre}</span>
-                            </div>
-                        </td>
-                        <!-- Celda inyectada de Daño de Asalto Oficial -->
-                        <td style="color: var(--accent-red); font-weight: 800; font-size: 16px;">${dañoAsalto}</td>
-                        <!-- Celdas de daño de Estafermo -->
-                        <td>${jugador.daño.basico}</td>
-                        <td>${jugador.daño.luz}</td>
-                        <td>${jugador.daño.oscuridad}</td>
-                        <td>${jugador.daño.agua}</td>
-                        <td>${jugador.daño.fuego}</td>
-                        <td>${jugador.daño.tierra}</td>
-                    </tr>
-                `;
+                // Recorremos la lista de jugadores que trajo Google Sheets
+                data.forEach(jugador => {
+                    // Verificamos la posición para pintar de dorado a los primeros 5
+                    const claseDorada = parseInt(jugador.posicion) <= 5 ? 'top-5' : '';
+                    
+                    // Si el daño de asalto está vacío en la hoja, le ponemos '0' por defecto
+                    const dañoAsalto = jugador.asalto ? jugador.asalto : '0';
+                    
+                    // Inyectamos la fila en la tabla usando los nombres exactos de las columnas en tu Sheet
+                    cuerpoTabla.innerHTML += `
+                        <tr class="${claseDorada}">
+                            <td><strong class="pos-numero">${jugador.posicion}</strong></td>
+                            <td>
+                                <div class="perfil-celda">
+                                    <img src="${jugador.foto}" alt="${jugador.nombre}" class="foto-perfil" onerror="this.src='https://via.placeholder.com/36/3c354e/ffffff?text=?'">
+                                    <span>${jugador.nombre}</span>
+                                </div>
+                            </td>
+                            <td style="color: var(--accent-red); font-weight: 800; font-size: 16px;">${dañoAsalto}</td>
+                            <td>${jugador.basico || '0'}</td>
+                            <td>${jugador.luz || '0'}</td>
+                            <td>${jugador.oscuridad || '0'}</td>
+                            <td>${jugador.agua || '0'}</td>
+                            <td>${jugador.fuego || '0'}</td>
+                            <td>${jugador.tierra || '0'}</td>
+                        </tr>
+                    `;
+                });
+            })
+            .catch(error => {
+                console.error('Error al conectar con la hoja de cálculo:', error);
+                cuerpoTabla.innerHTML = '<tr><td colspan="9">Error al cargar los datos del ranking. Verifica tu enlace de SheetDB.</td></tr>';
             });
-        } else {
-            // Si el archivo datos_ranking.js no se encuentra, muestra un mensaje de error en la tabla
-            if(cuerpoTabla) {
-                cuerpoTabla.innerHTML = '<tr><td colspan="9">Asegúrate de crear y conectar el archivo datos_ranking.js para ver la tabla.</td></tr>';
-            }
-        }
 
         // -------------------------------------------------------------------------
         // LÓGICA DEL MENÚ LATERAL
@@ -296,12 +295,9 @@
         // -------------------------------------------------------------------------
         // MEMORIA PARA EL MODO OSCURO (LOCALSTORAGE)
         // -------------------------------------------------------------------------
-        // Nota: Esto hace que el navegador recuerde si dejaste la página en oscuro o claro
-        // al saltar de una pestaña a otra.
         const themeBtn = document.getElementById('themeToggle');
         const rootElement = document.documentElement;
 
-        // Comprobar la memoria del navegador al cargar la página
         if (localStorage.getItem('tema-casita') === 'dark') {
             rootElement.setAttribute('data-theme', 'dark');
             themeBtn.innerHTML = '<i class="fa-solid fa-sun"></i>';
@@ -309,7 +305,6 @@
             themeBtn.innerHTML = '<i class="fa-solid fa-moon"></i>';
         }
 
-        // Cambiar y guardar en la memoria el tema al darle click al botón del sol/luna
         themeBtn.addEventListener('click', () => {
             let isDark = rootElement.hasAttribute('data-theme');
             if (isDark) {
