@@ -163,10 +163,6 @@
 
             <!-- =========================================================================
                  CUATRO TARJETAS DE MÉTRICAS GLOBALES (Vinculadas a SheetDB)
-                 =========================================================================
-                 NOTA: No escribas los datos aquí. El sistema buscará en tu hoja 
-                 de cálculo las claves "resumen_ranking", "resumen_miembros", etc.,
-                 y reemplazará el texto "Cargando...".
                  ========================================================================= -->
             <div class="stats-grid">
                 <div class="stat-box">
@@ -206,11 +202,7 @@
             <div class="split-layout">
                 
                 <!-- =========================================================================
-                     TOP 3 MVPs (LEYENDO AUTOMÁTICAMENTE DE DATOS_RANKING.JS)
-                     =========================================================================
-                     NOTA PARA EDITORES: No tienes que escribir los nombres aquí.
-                     El código de abajo lee tu archivo "datos_ranking.js", escoge a los 
-                     3 primeros jugadores automáticamente y los dibuja en esta caja.
+                     TOP 3 MVPs (LEYENDO DE GOOGLE SHEETS AUTOMÁTICAMENTE)
                      ========================================================================= -->
                 <div class="card" style="border: 2px solid #fdd843; box-shadow: 0 0 20px rgba(253, 216, 67, 0.1);">
                     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
@@ -220,15 +212,12 @@
                     
                     <div id="mvp-container">
                         <!-- Javascript inyectará a los 3 mejores aquí -->
-                        <p style="font-size: 14px; color: var(--text-muted);">Cargando datos de ranking...</p>
+                        <p style="font-size: 14px; color: var(--text-muted); text-align: center;">Cargando datos de ranking...</p>
                     </div>
                 </div>
 
                 <!-- =========================================================================
                      REGLAS DE ASISTENCIA / NOTA GENERAL
-                     =========================================================================
-                     NOTA: Aquí puedes editar el texto para cambiar las reglas del gremio.
-                     Todo lo que modifiques aquí se verá tal cual en la página.
                      ========================================================================= -->
                 <div class="card">
                     <h3 class="section-title"><i class="fa-solid fa-clipboard-check"></i> Requisitos y Asistencia</h3>
@@ -261,18 +250,12 @@
     </script>
 
     <!-- =========================================================================
-         IMPORTAR DATOS DEL RANKING PARA LOS MVPS
-         ========================================================================= -->
-    <script src="datos_ranking.js"></script>
-
-    <!-- =========================================================================
          SCRIPTS Y LÓGICA DE LA PÁGINA
          ========================================================================= -->
     <script>
         // -------------------------------------------------------------------------
         // CONEXIÓN CON GOOGLE SHEETS (API DE SHEETDB)
         // -------------------------------------------------------------------------
-        // Esta es la URL de tu API en SheetDB. Reemplaza el enlace si cambias de hoja.
         const apiURL = 'https://sheetdb.io/api/v1/rfy0fba41r17u';
 
         fetch(apiURL)
@@ -286,40 +269,43 @@
                 });
             })
             .catch(error => console.error('Error al conectar con la hoja de cálculo:', error));
+            
         // -------------------------------------------------------------------------
-
+        // INYECTAR LOS 3 MEJORES JUGADORES DESDE GOOGLE SHEETS (PESTAÑA RANKING)
         // -------------------------------------------------------------------------
-        // INYECTAR LOS 3 MEJORES JUGADORES DESDE DATOS_RANKING.JS
-        // -------------------------------------------------------------------------
+        const apiRankingURL = 'https://sheetdb.io/api/v1/rfy0fba41r17u?sheet=Ranking';
         const mvpContainer = document.getElementById('mvp-container');
         
-        // Verifica si existe el archivo y el contenedor
-        if(typeof rankingGremio !== 'undefined' && mvpContainer) {
-            mvpContainer.innerHTML = ''; // Limpiar el texto "Cargando datos..."
-            
-            // "slice(0, 3)" toma únicamente a los 3 primeros jugadores de la lista
-            const mvps = rankingGremio.slice(0, 3); 
-            
-            mvps.forEach(jugador => {
-                // Leer daño de asalto del jugador, si no puso el dato se pone '0 M'
-                const dañoAsalto = jugador.dañoAsalto ? jugador.dañoAsalto : '0 M';
-                
-                // Inyecta el HTML por cada MVP encontrado
-                mvpContainer.innerHTML += `
-                    <div style="display: flex; align-items: center; justify-content: space-between; padding: 15px; background: var(--main-bg); border-radius: 12px; margin-bottom: 12px; border: 1px solid var(--border-color);">
-                        <div style="display: flex; align-items: center; gap: 15px;">
-                            <span style="font-size: 20px; font-weight: 800; color: #d89614; width: 30px; text-align: center;">#${jugador.posicion}</span>
-                            <img src="${jugador.foto}" alt="${jugador.nombre}" style="width: 42px; height: 42px; border-radius: 50%; object-fit: cover; border: 2px solid #fdd843;">
-                            <span style="font-weight: 700; font-size: 15px;">${jugador.nombre}</span>
-                        </div>
-                        <div style="font-size: 16px; font-weight: 800; color: var(--accent-red);">
-                            ${dañoAsalto}
-                        </div>
-                    </div>
-                `;
-            });
+        if (mvpContainer) {
+            fetch(apiRankingURL)
+                .then(response => response.json())
+                .then(data => {
+                    mvpContainer.innerHTML = ''; // Limpiar mensaje de carga
+                    
+                    // Toma a los 3 primeros
+                    const mvps = data.slice(0, 3); 
+                    
+                    mvps.forEach(jugador => {
+                        const dañoAsalto = jugador.asalto ? jugador.asalto : '0';
+                        mvpContainer.innerHTML += `
+                            <div style="display: flex; align-items: center; justify-content: space-between; padding: 15px; background: var(--main-bg); border-radius: 12px; margin-bottom: 12px; border: 1px solid var(--border-color);">
+                                <div style="display: flex; align-items: center; gap: 15px;">
+                                    <span style="font-size: 20px; font-weight: 800; color: #d89614; width: 30px; text-align: center;">#${jugador.posicion}</span>
+                                    <img src="${jugador.foto}" alt="${jugador.nombre}" style="width: 42px; height: 42px; border-radius: 50%; object-fit: cover; border: 2px solid #fdd843;" onerror="this.src='https://via.placeholder.com/42/3c354e/ffffff?text=?'">
+                                    <span style="font-weight: 700; font-size: 15px;">${jugador.nombre}</span>
+                                </div>
+                                <div style="font-size: 16px; font-weight: 800; color: var(--accent-red);">
+                                    ${dañoAsalto}
+                                </div>
+                            </div>
+                        `;
+                    });
+                })
+                .catch(error => {
+                    console.error('Error al cargar el ranking:', error);
+                    mvpContainer.innerHTML = '<p style="color: var(--accent-red); font-size: 12px; text-align: center;">Error al cargar el Top 3 desde Google Sheets.</p>';
+                });
         }
-        // -------------------------------------------------------------------------
 
         // -------------------------------------------------------------------------
         // LÓGICA DEL MENÚ LATERAL Y DESPLEGABLES
@@ -339,11 +325,9 @@
         // -------------------------------------------------------------------------
         // MEMORIA PARA EL MODO OSCURO (LOCALSTORAGE)
         // -------------------------------------------------------------------------
-        // Recuerda si el usuario activó el modo oscuro en otra de las páginas.
         const themeBtn = document.getElementById('themeToggle');
         const rootElement = document.documentElement;
 
-        // Comprobar la memoria al cargar
         if (localStorage.getItem('tema-casita') === 'dark') {
             rootElement.setAttribute('data-theme', 'dark');
             themeBtn.innerHTML = '<i class="fa-solid fa-sun"></i>';
@@ -351,7 +335,6 @@
             themeBtn.innerHTML = '<i class="fa-solid fa-moon"></i>';
         }
 
-        // Cambiar y guardar en memoria
         themeBtn.addEventListener('click', () => {
             let isDark = rootElement.hasAttribute('data-theme');
             if (isDark) {
